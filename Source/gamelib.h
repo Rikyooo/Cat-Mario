@@ -68,8 +68,6 @@
 
 #define SIZE_X				 (33 * 16 + 16)   // 设定游戏画面的解析度为640x480
 #define SIZE_Y				 (33 * 15)		// 注：若不使用标准的解析度，则不能切换到全荧幕
-#define PLAYER_HEIGHT        54
-#define PLAYER_WIDTH         33
 #define BLOCK_WIDTH_HEIGHT   33
 #define OPEN_AS_FULLSCREEN	 false		// 是否以全荧幕方式开启游戏
 #define SHOW_LOAD_PROGRESS   true		// 是否显示loading(OnInit)的进度

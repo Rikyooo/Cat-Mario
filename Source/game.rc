@@ -104,8 +104,6 @@ IDB_PLAYER_3            BITMAP                  "..\\RES\\player\\player_3.bmp"
 
 IDB_PLAYER_4            BITMAP                  "..\\RES\\player\\player_4.bmp"
 
-IDB_PLAYER_5            BITMAP                  "..\\RES\\player\\player_5.bmp"
-
 IDB_ENEMY_NORMAL        BITMAP                  "..\\RES\\enemy\\enemy_normal.bmp"
 
 IDB_ENEMY_RASING        BITMAP                  "..\\RES\\enemy\\enemy_rasing.bmp"
@@ -154,7 +152,7 @@ IDB_TITLE               BITMAP                  "..\\RES\\title.bmp"
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON                    "D:\\TAIPEI TECH\\2018_Spring\\oop\\game\\RES\\GAME.ICO"
+IDI_ICON                ICON                    "..\\RES\\GAME.ICO"
 
 #endif    // 中文(繁体，台湾) resources
 /////////////////////////////////////////////////////////////////////////////

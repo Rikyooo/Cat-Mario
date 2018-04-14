@@ -38,6 +38,10 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 
+#include "CGameMap.h"
+#include "CGamePlayer.h"
+#include "CGameEnemy.h"
+
 namespace game_framework
 {
 /////////////////////////////////////////////////////////////////////////////
@@ -49,82 +53,6 @@ enum AUDIO_ID  				// 定义各种音效的编号
     AUDIO_DING,				// 0
     AUDIO_LAKE,				// 1
     AUDIO_NTUT				// 2
-};
-
-//map class
-class CGameMap
-{
-public:
-	CGameMap();
-	void LoadBitmap();
-	void OnShow();
-	void OnDraw();
-	bool IsEmpty(int, int);
-	void SetScreenX(int);
-	int GetScreenX();
-	int GetScreenY();
-
-protected:
-	static const int BLOCK_ROW = 15;
-	static const int BLOCK_COLUMN = 54;
-	CMovingBitmap block_floor_1_ground,
-		block_floor_2_ground,
-		block_fragile_ground,
-		block_sturdy_ground,
-		block_item_1_common,
-		block_item_2_ground,
-		mountain,
-		cloud_1,
-		brush;
-	int map_index[BLOCK_ROW][BLOCK_COLUMN];
-	int screen_x, screen_y;   //屏幕左上角在地图上的点坐标
-};
-
-class CGamePlayer
-{
-public:
-	CGamePlayer();
-	void LoadBitmap();
-	void OnMove(CGameMap *map);
-	void OnShow(CGameMap *map);
-	void SetMovingLeft(bool);
-	void SetMovingRight(bool);
-	void SetMovingUp(bool);
-	void SetXY(int, int);
-	int GetX();
-	int GetY();
-	void SetJump(bool);
-	bool GetJump();
-private:
-	CMovingBitmap player;
-	int x, y;   //玩家在地图上的点坐标
-	bool isMovingLeft = false;
-	bool isMovingRight = false;
-	bool isMovingUp = false;
-	int jumpingCount = 0;
-	//int fallSpeed = 0;
-	bool isFalling = false;
-	bool isJumping = true;
-};
-
-class CGameEnemy
-{
-public:
-	CGameEnemy(int);
-	void LoadBitmap();
-	void OnMove(CGameMap *map);
-	void OnShow(CGameMap *map);
-	void SetXY(int, int);
-	int GetX();
-	int GetY();
-	bool IsAlive();
-	void SetIsAlive(bool);
-	bool HitPlayer(CGamePlayer *player);
-private:
-	CMovingBitmap enemy;
-	int x, y; //怪在地图上的点坐标
-	int movingSpeed;
-	bool isAlive;
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -39,7 +39,6 @@
 #define IDB_PLAYER_2                    191
 #define IDB_PLAYER_3                    192
 #define IDB_PLAYER_4                    193
-#define IDB_PLAYER_5                    194
 #define IDB_ENEMY_NORMAL                195
 #define IDB_ENEMY_RASING                196
 #define IDB_COIN                        197
