@@ -147,6 +147,15 @@ IDB_MINUS               BITMAP                  "..\\RES\\bmp10.bmp"
 IDB_TITLE               BITMAP                  "..\\RES\\title.bmp"
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "D:\\TAIPEI TECH\\2018_Spring\\oop\\game\\RES\\GAME.ICO"
+
 #endif    // 中文(繁体，台湾) resources
 /////////////////////////////////////////////////////////////////////////////
 
