@@ -219,12 +219,13 @@ protected:
 
 class CAnimation {
 public:
-	CAnimation(int=10);				// Constructor (预设动画播放频率每1/3秒换一张图)
+	CAnimation(int=2, int=2);				// Constructor (预设动画播放频率每1/3秒换一张图)
 	void  AddBitmap(int,COLORREF=CLR_INVALID);
 									// 增加一张图形至动画(图的编号及透明色)
 	void  AddBitmap(char *,COLORREF=CLR_INVALID);
 									// 增加一张图形至动画(图的编号及透明色)
 	int   GetCurrentBitmapNumber();	// 取得正在拨放的bitmap是第几个bitmap
+	void  SetCurrentBitmap(int);
 	int   Height();					// 取得动画的高度
 	bool  IsFinalBitmap();			// 回传正在拨放的bitmap是否为最后一个bitmap
 	int   Left();					// 取得动画的左上角的 x 座标
@@ -242,6 +243,7 @@ private:
 	int								delay_counter;	// 延缓动画播放速度的计数器
 	int								delay_count;	// 动画播放速度的常数
 	int								x, y;			// 动画的座标
+	int                             move_end;
 };
 
 /////////////////////////////////////////////////////////////////////////////

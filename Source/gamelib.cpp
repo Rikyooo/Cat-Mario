@@ -136,10 +136,11 @@ namespace game_framework
 //    不要直接改CAnimation。
 /////////////////////////////////////////////////////////////////////////////
 
-CAnimation::CAnimation(int count)
+CAnimation::CAnimation(int count, int move)
 {
     delay_count = count;
     delay_counter = delay_count;
+	move_end = move;
     x = y = bmp_counter = 0;
 }
 
@@ -164,6 +165,14 @@ int CAnimation::GetCurrentBitmapNumber()
     return bmp_counter;
 }
 
+void CAnimation::SetCurrentBitmap(int number)
+{
+	GAME_ASSERT(number >= 0 && (size_t)number < bmp.size(), "Illegel seriels number!");
+	bmp_counter = number;
+	bmp_iter = bmp.begin();
+	advance(bmp_iter, 2);
+}
+
 int CAnimation::Height()
 {
     GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
@@ -185,6 +194,7 @@ int CAnimation::Left()
 void CAnimation::OnMove()
 {
     GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
+	GAME_ASSERT(move_end > 1 && (size_t)move_end <= bmp.size(), "Illegel move steps!");
 
     if (--delay_counter <= 0)
     {
@@ -192,7 +202,7 @@ void CAnimation::OnMove()
         bmp_iter++;
         bmp_counter++;
 
-        if (bmp_iter == bmp.end())
+        if (bmp_iter == next(bmp.begin(), move_end))
         {
             bmp_iter = bmp.begin();
             bmp_counter = 0;

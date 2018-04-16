@@ -328,7 +328,10 @@ namespace game_framework
 			if (enemy[i]->IsAlive() && enemy[i]->HitPlayer(&player))
 			{
 				if (player.GetY() + player.Height() <= enemy[i]->GetY() + 11)
+				{
+					player.SetMovingUp(true);
 					enemy[i]->SetIsAlive(false);
+				}
 				else
 				{
 					player.SetMovingLeft(false);
@@ -405,9 +408,9 @@ namespace game_framework
 			player.SetMovingRight(true);
 
 		/*eraser.SetMovingRight(true);*/
-		if (nChar == KEY_UP && player.GetJump() && UpClickCount < 1)
+		if (nChar == KEY_UP && !player.IsFalling() && UpClickCount < 1)
 		{
-			UpClickCount += 1;
+			UpClickCount++;
 			player.SetMovingUp(true);
 		}
 		/*eraser.SetMovingUp(true);*/

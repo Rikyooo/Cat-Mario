@@ -16,9 +16,9 @@ namespace game_framework
 		int GetX();
 		int GetY();
 		void SetJump(bool);
-		bool GetJump();
+		bool IsFalling();
 	private:
-		CMovingBitmap player;
+		CAnimation player;
 		int x, y;   //玩家在地图上的点坐标
 		bool isMovingLeft = false;
 		bool isMovingRight = false;
