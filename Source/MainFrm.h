@@ -36,8 +36,8 @@ protected: // create from serialization only
 public:
 private:
 	bool isFullScreen;
-	int  isToolBarVisible;
-	int  isStatusBarVisible;
+	/*int  isToolBarVisible;
+	int  isStatusBarVisible;*/
 	CMenu *pMenu;
 	//CRect WindowRect;
 // Operations
@@ -62,8 +62,8 @@ public:
 #endif
 
 protected:  // control bar embedded members
-	CStatusBar  m_wndStatusBar;
-	CToolBar    m_wndToolBar;
+	/*CStatusBar  m_wndStatusBar;
+	CToolBar    m_wndToolBar;*/
 
 // Generated message map functions
 protected:

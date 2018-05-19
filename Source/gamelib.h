@@ -66,13 +66,13 @@
 // 定义游戏可设定的环境与条件
 /////////////////////////////////////////////////////////////////////////////
 
-#define SIZE_X				 (33 * 16 + 16)   // 设定游戏画面的解析度为640x480
-#define SIZE_Y				 (33 * 15)		// 注：若不使用标准的解析度，则不能切换到全荧幕
-#define BLOCK_WIDTH_HEIGHT   33
+#define BLOCK_WIDTH_HEIGHT   32
+#define SIZE_X				 (BLOCK_WIDTH_HEIGHT * 20)   // 设定游戏画面的解析度为640x480
+#define SIZE_Y				 (BLOCK_WIDTH_HEIGHT * 15)		// 注：若不使用标准的解析度，则不能切换到全荧幕
 #define OPEN_AS_FULLSCREEN	 false		// 是否以全荧幕方式开启游戏
 #define SHOW_LOAD_PROGRESS   true		// 是否显示loading(OnInit)的进度
-#define DEFAULT_BG_COLOR	 RGB(160,180,250)	// 游戏画面预设的背景颜色(黑色)
-#define GAME_CYCLE_TIME		 33		    // 每33ms跑一次Move及Show(每秒30次)
+#define DEFAULT_BG_COLOR	 RGB(160,180,250)	// 游戏画面预设的背景颜色(蓝色)
+#define GAME_CYCLE_TIME		 16		    // 每16ms跑一次Move及Show(每秒60次)
 #define SHOW_GAME_CYCLE_TIME false		// 是否在debug mode显示cycle time
 #define ENABLE_GAME_PAUSE	 false		// 是否允许以 Ctrl-Q 暂停游戏
 #define ENABLE_AUDIO		 false		// 启动音效介面

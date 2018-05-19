@@ -40,7 +40,6 @@
 
 #include "CGameMap.h"
 #include "CGamePlayer.h"
-#include "CGameEnemy.h"
 
 namespace game_framework
 {
@@ -67,17 +66,16 @@ class CGameStateInit : public CGameState
         void OnInit();  								// 游戏的初值及图形设定
         void OnBeginState();							// 设定每次重玩所需的变数
         void OnKeyUp(UINT, UINT, UINT); 				// 处理键盘Up的动作
-        void OnLButtonDown(UINT nFlags, CPoint point);  // 处理滑鼠的动作
     protected:
         void OnShow();									// 显示这个状态的游戏画面
     private:
         //CMovingBitmap logo;								// csie的logo
-		CMovingBitmap block_floor_1_ground;
-		CMovingBitmap block_floor_2_ground;
-		CMovingBitmap player;
-		CMovingBitmap title;
-		CMovingBitmap mountain;
-		CMovingBitmap brush;
+		CMovingBitmap block_floor_1_ground_bmp;
+		CMovingBitmap block_floor_2_ground_bmp;
+		CMovingBitmap player_bmp;
+		CMovingBitmap bush_top_bmp, bush_center_1_bmp, bush_center_2_bmp, bush_left_bmp, bush_right_bmp;
+		CMovingBitmap grass_left_bmp, grass_right_bmp;
+		CMovingBitmap title_bmp;
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -103,17 +101,12 @@ class CGameStateRun : public CGameState
         void OnMove();									// 移动游戏元素
         void OnShow();									// 显示这个状态的游戏画面
     private:
-        //const int		NUMBALLS;	// 球的总数
-        CMovingBitmap	background;	// 背景图
-        CMovingBitmap	help;		// 说明图
-        //CBall			*ball;		// 球的阵列
-        CMovingBitmap	corner;		// 角落图
-        //CEraser			eraser;		// 拍子
-        CInteger		hits_left;	// 剩下的撞击数
-        //CBouncingBall   bball;		// 反覆弹跳的球
-        CGameMap map_stage_1;
-		CGamePlayer player;
-		vector<CGameEnemy*> enemy;
+        CGameMap *map;
+		bool isLeftPressed = false;
+		bool isRightPressed = false;
+		bool firstDir; // ----- true = RIGHT, false = LEFT
+		/*CGamePlayer bmp;
+		vector<CGameEnemy*> bmp;*/
 		int UpClickCount = 0;
 };
 

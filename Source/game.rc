@@ -62,27 +62,13 @@ END
 // Bitmap
 //
 
-IDB_BRUSH               BITMAP                  "..\\RES\\background\\brush.bmp"
-
 IDB_TREE_1              BITMAP                  "..\\RES\\background\\tree 1.bmp"
 
 IDB_TREE_2              BITMAP                  "..\\RES\\background\\tree 2.bmp"
 
 IDB_CASTLE              BITMAP                  "..\\RES\\background\\castle.bmp"
 
-IDB_CLOUD_1             BITMAP                  "..\\RES\\background\\cloud 1.bmp"
-
-IDB_CLOUD_2             BITMAP                  "..\\RES\\background\\cloud 2.bmp"
-
-IDB_CLOUD_3             BITMAP                  "..\\RES\\background\\cloud 3.bmp"
-
-IDB_CLOUD_4             BITMAP                  "..\\RES\\background\\cloud 4.bmp"
-
 IDB_FIRE                BITMAP                  "..\\RES\\background\\fire.bmp"
-
-IDB_MOUNTAIN            BITMAP                  "..\\RES\\background\\mountain.bmp"
-
-IDB_BLOCK_FLOOR_1_GROUND BITMAP                  "..\\RES\\block\\block_floor_1_ground.bmp"
 
 IDB_BLOCK_FLOOR_1_SKY   BITMAP                  "..\\RES\\block\\block_floor_1_sky.bmp"
 
@@ -143,6 +129,44 @@ IDB_9                   BITMAP                  "..\\RES\\bmp9.bmp"
 IDB_MINUS               BITMAP                  "..\\RES\\bmp10.bmp"
 
 IDB_TITLE               BITMAP                  "..\\RES\\title.bmp"
+
+IDB_BUSH_TOP            BITMAP                  "..\\RES\\background\\brush_top.bmp"
+
+IDB_BUSH_CENTER_1       BITMAP                  "..\\RES\\background\\bush_center_1.bmp"
+
+IDB_BUSH_CENTER_2       BITMAP                  "..\\RES\\background\\bush_center_2.bmp"
+
+IDB_BUSH_LEFT           BITMAP                  "..\\RES\\background\\bush_left.bmp"
+
+IDB_BUSH_RIGHT          BITMAP                  "..\\RES\\background\\bush_right.bmp"
+
+IDB_GRASS_LEFT          BITMAP                  "..\\RES\\background\\grass_left.bmp"
+
+IDB_GRASS_RIGHT         BITMAP                  "..\\RES\\background\\grass_right.bmp"
+
+IDB_BLOCK_FLOOR_1_GROUND BITMAP                  "..\\RES\\block\\block_floor_1_ground.bmp"
+
+IDB_TRANSP              BITMAP                  "..\\RES\\transparent.bmp"
+
+IDB_CLOUD_CENTER_1      BITMAP                  "..\\RES\\background\\cloud _1_center.bmp"
+
+IDB_CLOUD_LEFT          BITMAP                  "..\\RES\\background\\cloud _1_left.bmp"
+
+IDB_CLOUD_RIGHT         BITMAP                  "..\\RES\\background\\cloud _1_right.bmp"
+
+IDB_CLOUD_TOP           BITMAP                  "..\\RES\\background\\cloud _1_top.bmp"
+
+IDB_CLOUD_CENTER_2      BITMAP                  "..\\RES\\background\\cloud _2_center.bmp"
+
+IDB_CLOUD_BOTTOM        BITMAP                  "..\\RES\\background\\cloud _1_bottom.bmp"
+
+IDB_BLOCK_DEBRIS_LEFT   BITMAP                  "..\\RES\\block\\block_debris_left.bmp"
+
+IDB_BLOCK_DEBRIS_RIGHT  BITMAP                  "..\\RES\\block\\block_debris_right.bmp"
+
+IDB_FLOWER              BITMAP                  "..\\RES\\item\\flower.bmp"
+
+IDB_STAR_1              BITMAP                  "..\\RES\\item\\star_1.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
