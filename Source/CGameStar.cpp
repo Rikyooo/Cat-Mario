@@ -39,20 +39,24 @@ namespace game_framework
 
 	void CGameStar::Update(CGameMap * map)
 	{
-		if (inSpawnState) 
+		if (inSpawnState)
+		{
 			if (inSpawnY <= 0)
 				inSpawnState = false;
 			else
-				if (fYPos > -5) 
+			{
+				if (fYPos > -5)
 				{
 					inSpawnY -= 2;
 					fYPos -= 2;
 				}
-				else 
+				else
 				{
 					inSpawnY -= 1;
 					fYPos -= 1;
 				}
+			}
+		}
 		else
 		{
 			if (jumpState == 0) 
@@ -76,7 +80,8 @@ namespace game_framework
 	void CGameStar::minionPhysics(CGameMap * map)
 	{
 		if (jumpState == 1)
-			if (minionState == 0) 
+		{
+			if (minionState == 0)
 			{
 				updateYPos(-4 + (currentJumpDistance > 64 ? 2 : 0), map);
 				currentJumpDistance += 2;
@@ -84,11 +89,14 @@ namespace game_framework
 				if (jumpDistance <= currentJumpDistance)
 					jumpState = 2;
 			}
+		}
 		else
-			if (!map->checkCollisionLB((int)fXPos + 2, (int)fYPos + 2, iHitBoxY, true) && !map->checkCollisionRB((int)fXPos - 2, (int)fYPos + 2, iHitBoxX, iHitBoxY, true)) 
+		{
+			if (!map->checkCollisionLB((int)fXPos + 2, (int)fYPos + 2, iHitBoxY, true) && !map->checkCollisionRB((int)fXPos - 2, (int)fYPos + 2, iHitBoxX, iHitBoxY, true))
 				CGameMinion::physicsState2(map);
 			else
 				jumpState = 0;
+		}
 	}
 
 	void CGameStar::Draw(CGameMap * map, int iBlockID)
@@ -107,7 +115,7 @@ namespace game_framework
 		}
 	}
 
-	void CGameStar::setMinionState(int minionState, CGameMap* map)
+	void CGameStar::setMinionState(int minionState)
 	{
 	}
 }

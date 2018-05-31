@@ -276,7 +276,7 @@ namespace game_framework
 		return minionState;
 	}
 
-	void CGameMinion::setMinionState(int minionState, CGameMap* map)
+	void CGameMinion::setMinionState(int minionState)
 	{
 		this->minionState = minionState;
 		if (minionState == -2) {

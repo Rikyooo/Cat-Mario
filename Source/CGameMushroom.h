@@ -25,6 +25,6 @@ namespace game_framework
 
 		void collisionWithPlayer(bool TOP, CGameMap* map);
 
-		void setMinionState(int minionState, CGameMap* map);
+		void setMinionState(int minionState);
 	};
 }

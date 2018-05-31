@@ -21,7 +21,7 @@ class CGameStar : public CGameMinion
 
         void collisionWithPlayer(bool TOP, CGameMap* map);
 
-        void setMinionState(int minionState, CGameMap* map);
+        void setMinionState(int minionState);
     private:
         bool inSpawnState;
         int inSpawnY;

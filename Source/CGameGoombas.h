@@ -16,6 +16,6 @@ namespace game_framework
 		void Update(CGameMap* map);
 		void Draw(CGameMap* map, int iBlockID);
 		void collisionWithPlayer(bool TOP, CGameMap* map);
-		void setMinionState(int minionState, CGameMap* map);
+		void setMinionState(int minionState);
 	};
 }

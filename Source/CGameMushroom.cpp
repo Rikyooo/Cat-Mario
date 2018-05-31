@@ -27,6 +27,8 @@ namespace game_framework
 
 		this->iX = iX;
 		this->iY = iY;
+		this->iHitBoxX = 29;
+		this->iHitBoxY = 30;
 	}
 
 	CGameMushroom::~CGameMushroom(void) 
@@ -101,7 +103,7 @@ namespace game_framework
 		}
 	}
 
-	void CGameMushroom::setMinionState(int minionState, CGameMap* map)
+	void CGameMushroom::setMinionState(int minionState)
 	{
 	}
 }

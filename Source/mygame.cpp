@@ -31,7 +31,7 @@ namespace game_framework
 		title_bmp.LoadBitmap(IDB_TITLE);
 		block_floor_1_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_1_GROUND);
 		block_floor_2_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_2_GROUND);
-		player_bmp.LoadBitmap(IDB_PLAYER_1);
+		player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(0, 0, 255));
 		grass_left_bmp.LoadBitmap(IDB_GRASS_LEFT);
 		grass_right_bmp.LoadBitmap(IDB_GRASS_RIGHT);
 		bush_top_bmp.LoadBitmap(IDB_BUSH_TOP);
@@ -145,11 +145,12 @@ namespace game_framework
 
 		if (counter < 0)
 			GotoGameState(GAME_STATE_RUN);
+		TRACE("GameStateRun OnMove\n");
 	}
 
 	void CGameStateOver::OnBeginState()
 	{
-		counter = 30 * 2; // 2 seconds
+		counter = 60 * 3; // 2 seconds
 		lives--;
 	}
 
@@ -184,6 +185,7 @@ namespace game_framework
 		pDC->TextOut(270, 210, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千万不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		TRACE("GameStateOver OnShow\n");
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -196,32 +198,17 @@ namespace game_framework
 
 	CGameStateRun::~CGameStateRun()
 	{
-		/*for (unsigned int i = 0; i < bmp.size(); i++)
-			delete bmp[i];*/
-		/*delete [] ball;*/
 	}
 
 	void CGameStateRun::OnBeginState()
 	{
 		map->setIsPlayerDeath(false);
 		map->loadLVL();
-	    //设定玩家的起始坐标
-		//bmp[0]->SetXY(11 * BLOCK_WIDTH_HEIGHT, SIZE_Y - BLOCK_WIDTH_HEIGHT * 2 - 30); //设定怪物的起始坐标 enemy_normal_height = 30
-		//bmp[1]->SetXY(15 * BLOCK_WIDTH_HEIGHT, SIZE_Y - BLOCK_WIDTH_HEIGHT * 2 - 30);
-		//map_stage_1.SetScreenX(0);                          //设置地图的起始坐标
-
-		/*for (unsigned int i = 0; i < bmp.size(); i++)
-			bmp[i]->SetIsAlive(true);*/
-		
-		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 拨放 WAVE
-		//CAudio::Instance()->Play(AUDIO_DING, false);		// 拨放 WAVE
-		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 拨放 MIDI
+		CAudio::Instance()->Play(AUDIO_FIELD, true);
 	}
 
 	void CGameStateRun::OnMove()							// 移动游戏元素
 	{
-		map->TimeTick();
-
 		if (isLeftPressed) 
 		{
 			if (!map->getPlayer()->getMove() && firstDir == false && !map->getPlayer()->getChangeMoveDirection()) 
@@ -258,7 +245,9 @@ namespace game_framework
 			map->setYPos(0);
 			map->getPlayer()->SetX(6);
 			map->getPlayer()->SetY(SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 37);	
+			CAudio::Instance()->Stop(AUDIO_FIELD);
 			GotoGameState(GAME_STATE_OVER);
+			TRACE("GotoGameState(GAME_STATE_OVER);\n");
 		}
 	}
 
@@ -395,12 +384,11 @@ namespace game_framework
 
 	void CGameStateRun::OnShow()
 	{
-		/*map_stage_1.OnShow();
-		for (unsigned int i = 0; i < bmp.size(); i++)
-			bmp[i]->OnShow(&map_stage_1);
-		bmp.OnShow(&map_stage_1);
-		hits_left.ShowBitmap();*/
-		
-		map->Draw();
+		if (map->IsPlayerDeath())
+		{
+			CDDraw::BltBackColor(RGB(0, 0, 0));
+		}
+		else
+			map->Draw();
 	}
 }

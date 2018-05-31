@@ -44,7 +44,7 @@ namespace game_framework
 		void setBlockID(int iBlockID);
 		int getMinionState();
 
-		virtual void setMinionState(int minionState, CGameMap* map);
+		virtual void setMinionState(int minionState);
 		virtual bool getPowerUP();
 
 		int getXPos();

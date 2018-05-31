@@ -54,9 +54,6 @@ namespace game_framework
 		void setNextFallFrameID(int nextFallFrameID);
 		int getJumpState();
 
-		void TimeTick();
-		int GetTimeTick();
-
 	private:
 		CMovingBitmap player_bmp;
 		float fXPos, fYPos;   //玩家在地图上的点坐标
@@ -76,7 +73,7 @@ namespace game_framework
 		static const int maxMove = 4;
 		int currentMaxMove;
 		int moveSpeed;
-		int iTimePassed;
+		unsigned int iTimePassed;
 		int iTimeTick;
 
 		bool isUpPressed;

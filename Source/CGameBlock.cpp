@@ -25,7 +25,7 @@ namespace game_framework
 
 	void CGameBlock::LoadBitmap()
 	{
-		bmp.LoadBitmap(bmpID, RGB(160,180,250));
+		bmp.LoadBitmap(bmpID, RGB(0,0,255));
 	}
 
 	void CGameBlock::OnDraw(int x, int y)

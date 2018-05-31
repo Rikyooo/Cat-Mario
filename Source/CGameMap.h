@@ -9,10 +9,20 @@ namespace game_framework
 	class CGamePlayer;
 	class CGameMinion;
 	class CGameGoombas;
+	class CGameKoppa;
 	class CGameMushroom;
 	class CGameStar;
 	class CGameCoin;
 	class CGameBlockDebris;
+
+	enum AUDIO_ID {				// 定义各种音效的编号
+		AUDIO_FIELD,				// 0
+		AUDIO_BLOCK_BREAK,			// 1
+		AUDIO_BLOCK_COIN,			// 2
+		AUDIO_BLOCK_USE,			// 3
+		AUDIO_JUMP,			        // 4
+		AUDIO_DEATH                 // 5
+	};
 
 	//map class
 	class CGameMap
@@ -40,7 +50,7 @@ namespace game_framework
 
 		bool blockUse(int nX, int nY, int iBlockID, int POS);
 		void addGoombas(int iX, int iY, bool moveDirection);
-		//void addKoppa(int iX, int iY, int minionState, bool moveDirection);
+		void addKoppa(int iX, int iY, int minionState, bool moveDirection);
 
 		//void clearPlatforms();
 
@@ -112,25 +122,10 @@ namespace game_framework
 		bool getMoveMap();
 		void setMoveMap(bool bMoveMap);
 
-		void TimeTick();
-
 		void setIsPlayerDeath(bool isPlayerDeath);
 		bool IsPlayerDeath();
 
 	private:
-		/*static const int BLOCK_ROW = 15;
-		static const int BLOCK_COLUMN = 54;*/
-
-		//CMovingBitmap block_floor_1_ground,
-		//	block_floor_2_ground,
-		//	block_fragile_ground,
-		//	block_sturdy_ground,
-		//	block_item_1_common,
-		//	block_item_2_ground,
-		//	mountain,
-		//	cloud_1,
-		//	brush;
-		//int screen_x, screen_y;   //屏幕左上角在地图上的点坐标
 
 /***************************************************/
 		float fXPos, fYPos;

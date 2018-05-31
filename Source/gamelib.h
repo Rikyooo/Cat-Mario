@@ -75,7 +75,7 @@
 #define GAME_CYCLE_TIME		 16		    // 每16ms跑一次Move及Show(每秒60次)
 #define SHOW_GAME_CYCLE_TIME false		// 是否在debug mode显示cycle time
 #define ENABLE_GAME_PAUSE	 false		// 是否允许以 Ctrl-Q 暂停游戏
-#define ENABLE_AUDIO		 false		// 启动音效介面
+#define ENABLE_AUDIO		 true		// 启动音效介面
 
 /////////////////////////////////////////////////////////////////////////////
 // 定义CGame及CGameState所使用的三个状态常数

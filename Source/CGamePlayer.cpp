@@ -27,7 +27,7 @@ namespace game_framework
 
 		//this->springJump = false;
 
-		this->iTimePassed = iTimeTick;
+		this->iTimePassed = timeGetTime();
 
 		this->isUpPressed = false;
 		this->jumpState = 0;
@@ -37,87 +37,9 @@ namespace game_framework
 
 	void CGamePlayer::LoadBitmap()
 	{
-		player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(160, 180, 250));
+		player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(0, 0, 0));
+		//player_bmp.LoadBitmap("RES//player//player_1.bmp", RGB(0, 0, 255));
 	}
-
-	//void CGamePlayer::OnMove(CGameMap* map)
-	//{
-	//	const int STEP_SIZE = 11;
-
-	//	if (isMovingUp)
-	//		if ((map->IsEmpty(x, y - 1) && map->IsEmpty(x + Width(), y - 1)) && jumpingCount < 6)
-	//		{
-	//			jumpingCount++;
-	//			//player.SetCurrentBitmap(2);   //jumping style = 2
-	//			y -= 33;
-
-	//			if (!map->IsEmpty(x, y + 1) || !map->IsEmpty(x + Width(), y + 1))//防上方陷入
-	//			{
-	//				jumpingCount = 6;
-	//				y = (y / BLOCK_WIDTH_HEIGHT + 1) * BLOCK_WIDTH_HEIGHT;
-	//			}
-	//		}
-
-	//	if ((map->IsEmpty(x, y + Height() + 1) && map->IsEmpty(x + Width(), y + Height() + 1)) || y + Height() >= SIZE_Y)
-	//	{
-	//		isFalling = true;
-	//		y += 6;
-	//	}
-	//	else
-	//	{
-	//		jumpingCount = 0;
-	//		isMovingUp = false;
-	//		isFalling = false;
-
-	//		/*if (!isMovingLeft && !isMovingRight)
-	//			player.SetCurrentBitmap(0);*/
-	//	}
-	//	if (!(y + Height() >= SIZE_Y))
-	//	{
-	//		if (!map->IsEmpty(x, y + Height() - 1) || !map->IsEmpty(x + Width(), y + Height() - 1))  //防下方陷入
-	//			y = (y + Height()) / BLOCK_WIDTH_HEIGHT * BLOCK_WIDTH_HEIGHT - Height();
-	//	}
-
-	//	if (isMovingLeft)
-	//	{
-	//		if (!isMovingUp && !isFalling)
-	//			bmp.OnMove();
-
-	//		if (x - 1 > map->GetScreenX())
-	//			if (map->IsEmpty(x - 1, y) && map->IsEmpty(x - 1, y + Height() - 1))
-	//			{
-	//				x -= STEP_SIZE;
-
-	//				if (!map->IsEmpty(x + 1, y) || !map->IsEmpty(x + 1, y + Height() - 1))//防左方陷入
-	//					x = (x / BLOCK_WIDTH_HEIGHT + 1) * BLOCK_WIDTH_HEIGHT;
-	//			}
-	//	}
-
-	//	if (isMovingRight)
-	//	{
-	//		if (!isMovingUp && !isFalling)
-	//			bmp.OnMove();
-
-	//		if (x + 1 < BLOCK_WIDTH_HEIGHT * 53)
-	//			if (map->IsEmpty(x + Width() + 1, y) && map->IsEmpty(x + Width() + 1, y + Height() - 1))
-	//			{
-	//				x += STEP_SIZE;
-
-	//				if (!map->IsEmpty(x - 1, y) || !map->IsEmpty(x - 1, y + Height() - 1))  //防右方陷入
-	//					x = (x + Width()) / BLOCK_WIDTH_HEIGHT * BLOCK_WIDTH_HEIGHT - Width();
-
-	//				if ((x - map->GetScreenX() > SIZE_X * 2 / 3) && (map->GetScreenX() + SIZE_X < BLOCK_WIDTH_HEIGHT * 54 - STEP_SIZE))
-	//					map->SetScreenX(STEP_SIZE);
-	//			}
-	//	}
-	//		
-	//}
-
-	/*void CGamePlayer::OnShow(CGameMap* map)
-	{
-		bmp.SetTopLeft(x - map->GetScreenX(), y - map->GetScreenY());
-		bmp.OnShow();
-	}*/
 
 	int CGamePlayer::Width()
 	{
@@ -246,7 +168,7 @@ namespace game_framework
 				//	}
 				//}
 				//else 
-				if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + 2), (int)fYPos + 2, Height(), true) && !map->checkCollisionRB((int)(fXPos - map->getXPos() - 2), (int)fYPos + 2, Width(), Height(), true)) 
+				if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + 1, Height(), true) && !map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + 1, Width(), Height(), true)) 
 				{
 
 					if (nextFallFrameID > 0)
@@ -277,7 +199,7 @@ namespace game_framework
 		//checkCollisionCenter(displacement, 0, map);
 		if (displacement > 0) 
 		{
-			if (!map->checkCollisionRB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 2, Width(), Height(), true) && !map->checkCollisionRT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 2, Width(), true))
+			if (!map->checkCollisionRB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, Width(), Height(), true) && !map->checkCollisionRT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, Width(), true))
 			{
 				if (fXPos >= 215 && map->getMoveMap() && SIZE_X - map->getXPos() + displacement < map->getMapWidth() * BLOCK_WIDTH_HEIGHT)
 					map->moveMap(-displacement, 0);
@@ -292,7 +214,7 @@ namespace game_framework
 			}
 		}
 		else if (displacement < 0) {
-			if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 2, Height(), true) && !map->checkCollisionLT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 2, true))
+			if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, Height(), true) && !map->checkCollisionLT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, true))
 			{
 				if (fXPos - map->getXPos() + displacement >= 0 && fXPos >= 0)
 					fXPos += displacement;
@@ -312,8 +234,8 @@ namespace game_framework
 
 		if (iN > 0)
 		{
-			bLEFT = map->checkCollisionLB((int)(fXPos - map->getXPos() + 2), (int)fYPos + iN, Height(), true);
-			bRIGHT = map->checkCollisionRB((int)(fXPos - map->getXPos() - 2), (int)fYPos + iN, Width(), Height(), true);
+			bLEFT = map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + iN, Height(), true);
+			bRIGHT = map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + iN, Width(), Height(), true);
 
 			if (!bLEFT && !bRIGHT)
 				fYPos += iN;
@@ -327,8 +249,8 @@ namespace game_framework
 		}
 		else if (iN < 0)
 		{
-			bLEFT = map->checkCollisionLT((int)(fXPos - map->getXPos() + 2), (int)fYPos + iN, false);
-			bRIGHT = map->checkCollisionRT((int)(fXPos - map->getXPos() - 2), (int)fYPos + iN, Width(), false);
+			bLEFT = map->checkCollisionLT((int)(fXPos - map->getXPos() + 1), (int)fYPos + iN, false);
+			bRIGHT = map->checkCollisionRT((int)(fXPos - map->getXPos() - 1), (int)fYPos + iN, Width(), false);
 
 			/*if (map->checkCollisionWithPlatform((int)fXPos, (int)fYPos, 0, 0) >= 0 || map->checkCollisionWithPlatform((int)fXPos, (int)fYPos, Width(), 0) >= 0)
 			{
@@ -500,6 +422,8 @@ namespace game_framework
 		currentJumpDistance = 0;
 
 		//animation and music
+		if (iH > 1)
+			CAudio::Instance()->Play(AUDIO_JUMP);
 
 		jumpState = 1;
 	}
@@ -548,36 +472,26 @@ namespace game_framework
 		return jumpState;
 	}
 
-	void CGamePlayer::TimeTick()
-	{
-		iTimeTick++;
-	}
-
-	int CGamePlayer::GetTimeTick()
-	{
-		return iTimeTick;
-	}
-
 	void CGamePlayer::movePlayer(CGameMap *map)
 	{
 		if (bMove && !changeMoveDirection) 
 		{
 			if (moveSpeed > currentMaxMove)
 				--moveSpeed;
-			else if (iTimeTick - (6 + moveSpeed) >= iTimePassed && moveSpeed < currentMaxMove) 
+			else if (timeGetTime() - (100 + 35 * moveSpeed) >= iTimePassed && moveSpeed < currentMaxMove) 
 			{
 				++moveSpeed;
-				iTimePassed = iTimeTick;
+				iTimePassed = timeGetTime();
 			}
 			else if (moveSpeed == 0)
 				moveSpeed = 1;
 		}
 		else 
 		{
-			if (iTimeTick - 2 + (currentMaxMove - moveSpeed) > iTimePassed && moveSpeed != 0)
+			if (timeGetTime() - 50 + 15 * (currentMaxMove - moveSpeed) > iTimePassed && moveSpeed != 0)
 			{
 				--moveSpeed;
-				iTimePassed = iTimeTick;
+				iTimePassed = timeGetTime();
 				/*if (jumpState == 0 ) 
 					setMarioSpriteID(6);*/
 			}
@@ -641,12 +555,12 @@ namespace game_framework
 
 	Vector2 * CGamePlayer::getBlockLB(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX + 1, (int)nY + Height() + 2);
+		return map->getBlockID((int)nX + 1, (int)nY + Height());
 	}
 
 	Vector2 * CGamePlayer::getBlockRB(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX + Width() - 1, (int)nY + Height() + 2);
+		return map->getBlockID((int)nX + Width() - 1, (int)nY + Height());
 	}
 
 	Vector2 * CGamePlayer::getBlockLC(float nX, float nY, CGameMap *map)

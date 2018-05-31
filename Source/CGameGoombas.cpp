@@ -17,7 +17,8 @@ namespace game_framework
 		this->iBlockID = iBlockID;
 		this->moveDirection = moveDirection;
 		this->moveSpeed = 1;
-		this->iHitBoxY = 29;
+		this->iHitBoxX = 31;
+		this->iHitBoxY = 27;
 	}
 
 	CGameGoombas::~CGameGoombas(void)
@@ -30,7 +31,7 @@ namespace game_framework
 			updateXPos(map);
 		else if (minionState == -2) 
 			CGameMinion::minionDeathAnimation();
-		else if (map->getPlayer()->GetTimeTick() - 10 >= deadTime)
+		else if (timeGetTime()- 250 >= (unsigned)deadTime)
 			minionState = -1;
 	}
 
@@ -56,7 +57,7 @@ namespace game_framework
 			{
 				minionState = 1;
 				iBlockID = map->getLevelType() == 0 || map->getLevelType() == 4 ? 0 : map->getLevelType() == 1 ? 9 : 11;
-				deadTime = map->getPlayer()->GetTimeTick();
+				deadTime = timeGetTime();
 				map->getPlayer()->resetJump();
 				map->getPlayer()->startJump(1);
 				//points(100);
@@ -69,13 +70,13 @@ namespace game_framework
 		}
 	}
 
-	void CGameGoombas::setMinionState(int minionState, CGameMap* map)
+	void CGameGoombas::setMinionState(int minionState)
 	{
 		this->minionState = minionState;
 
 		if (this->minionState == 1)
-			deadTime = map->getPlayer()->GetTimeTick();
+			deadTime = timeGetTime();
 
-		CGameMinion::setMinionState(minionState, map);
+		CGameMinion::setMinionState(minionState);
 	}
 }

@@ -8,6 +8,7 @@
 #include "CGamePlayer.h"
 #include "CGameMinion.h"
 #include "CGameGoombas.h"
+#include "CGameKoppa.h"
 #include "CGameMushroom.h"
 #include "CGameStar.h"
 #include "CGameCoin.h"
@@ -133,13 +134,13 @@ void CGameMap::UpdateMinionsCollisions()
                             {
                                 if (lMinion[i][j]->getKillOtherUnits() && lMinion[i][j]->getMoveSpeed() > 0 && lMinion[i][k]->getMinionSpawned())
                                 {
-                                    lMinion[i][k]->setMinionState(-2, this);
+                                    lMinion[i][k]->setMinionState(-2);
                                     lMinion[i][j]->collisionWithAnotherUnit();
                                 }
 
                                 if (lMinion[i][k]->getKillOtherUnits() && lMinion[i][k]->getMoveSpeed() > 0 && lMinion[i][j]->getMinionSpawned())
                                 {
-                                    lMinion[i][j]->setMinionState(-2, this);
+                                    lMinion[i][j]->setMinionState(-2);
                                     lMinion[i][k]->collisionWithAnotherUnit();
                                 }
 
@@ -157,13 +158,13 @@ void CGameMap::UpdateMinionsCollisions()
                             {
                                 if (lMinion[i][j]->getKillOtherUnits() && lMinion[i][j]->getMoveSpeed() > 0 && lMinion[i][k]->getMinionSpawned())
                                 {
-                                    lMinion[i][k]->setMinionState(-2, this);
+                                    lMinion[i][k]->setMinionState(-2);
                                     lMinion[i][j]->collisionWithAnotherUnit();
                                 }
 
                                 if (lMinion[i][k]->getKillOtherUnits() && lMinion[i][k]->getMoveSpeed() > 0 && lMinion[i][j]->getMinionSpawned())
                                 {
-                                    lMinion[i][j]->setMinionState(-2, this);
+                                    lMinion[i][j]->setMinionState(-2);
                                     lMinion[i][k]->collisionWithAnotherUnit();
                                 }
 
@@ -191,13 +192,13 @@ void CGameMap::UpdateMinionsCollisions()
                                 {
                                     if (lMinion[i][j]->getKillOtherUnits() && lMinion[i][j]->getMoveSpeed() > 0 && lMinion[i + 1][k]->getMinionSpawned())
                                     {
-                                        lMinion[i + 1][k]->setMinionState(-2, this);
+                                        lMinion[i + 1][k]->setMinionState(-2);
                                         lMinion[i][j]->collisionWithAnotherUnit();
                                     }
 
                                     if (lMinion[i + 1][k]->getKillOtherUnits() && lMinion[i + 1][k]->getMoveSpeed() > 0 && lMinion[i][j]->getMinionSpawned())
                                     {
-                                        lMinion[i][j]->setMinionState(-2, this);
+                                        lMinion[i][j]->setMinionState(-2);
                                         lMinion[i + 1][k]->collisionWithAnotherUnit();
                                     }
 
@@ -222,13 +223,13 @@ void CGameMap::UpdateMinionsCollisions()
                                 {
                                     if (lMinion[i][j]->getKillOtherUnits() && lMinion[i][j]->getMoveSpeed() > 0 && lMinion[i + 1][k]->getMinionSpawned())
                                     {
-                                        lMinion[i + 1][k]->setMinionState(-2, this);
+                                        lMinion[i + 1][k]->setMinionState(-2);
                                         lMinion[i][j]->collisionWithAnotherUnit();
                                     }
 
                                     if (lMinion[i + 1][k]->getKillOtherUnits() && lMinion[i + 1][k]->getMoveSpeed() > 0 && lMinion[i][j]->getMinionSpawned())
                                     {
-                                        lMinion[i][j]->setMinionState(-2, this);
+                                        lMinion[i][j]->setMinionState(-2);
                                         lMinion[i + 1][k]->collisionWithAnotherUnit();
                                     }
 
@@ -396,12 +397,12 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
                 else
                     lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 - 32 * (nY + 1), false, nX, nY));
 
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cMUSHROOMAPPER);
+				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
             }
             else
             {
                 lCoin.push_back(new CGameCoin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
+				CAudio::Instance()->Play(AUDIO_BLOCK_COIN);
             }
 
             if (lMap[nX][nY]->getNumOfUse() > 1)
@@ -424,7 +425,7 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
                 lMap[nX][nY]->setBlockID(iLevelType == 0 || iLevelType == 4 ? 10 : iLevelType == 1 ? 56 : 80);
                 lMinion[getListID(32 * nX)].push_back(new CGameStar(32 * nX, SIZE_Y - 32 * (nY + 1), nX, nY));
                 //lMap[nX][nY]->startBlockAnimation();
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cMUSHROOMAPPER);
+				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
             }
             else if (lMap[nX][nY]->getSpawnMushroom())
             {
@@ -436,7 +437,7 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
 					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 - 32 * (nY + 1), false, nX, nY));
 
                 //lMap[nX][nY]->startBlockAnimation();
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cMUSHROOMAPPER);
+				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
             }
             else if (lMap[nX][nY]->getNumOfUse() > 0)
             {
@@ -446,14 +447,14 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
                 if (lMap[nX][nY]->getNumOfUse() == 0)
                     lMap[nX][nY]->setBlockID(iLevelType == 0 || iLevelType == 4 ? 10 : iLevelType == 1 ? 56 : 80);
 
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
+				CAudio::Instance()->Play(AUDIO_BLOCK_COIN);
                 //lMap[nX][nY]->startBlockAnimation();
             }
             else
             {
                 lMap[nX][nY]->setBlockID(0);
                 lBlockDebris.push_back(new CGameBlockDebris(nX * 32, SIZE_Y - 48 - nY * 32));
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cBLOCKBREAK);
+				CAudio::Instance()->Play(AUDIO_BLOCK_BREAK);
             }
 
             //else
@@ -472,12 +473,12 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
 				else
 					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 - 32 * (nY + 1), false, nX, nY));
 
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cMUSHROOMAPPER);
+				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
             }
             else
             {
                 lCoin.push_back(new CGameCoin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
-                //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
+				CAudio::Instance()->Play(AUDIO_BLOCK_COIN);
                 //lMap[nX][nY]->startBlockAnimation();
             }
 
@@ -517,7 +518,7 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
     case 72:
     case 73:// COIN
         lMap[nX][nY]->setBlockID(iLevelType == 2 ? 94 : 0);
-        //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
+		CAudio::Instance()->Play(AUDIO_BLOCK_COIN);
         return false;
         break;
 
@@ -546,6 +547,25 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
 void CGameMap::addGoombas(int iX, int iY, bool moveDirection)
 {
 	lMinion[getListID(iX)].push_back(new CGameGoombas(iX, iY, iLevelType == 0 || iLevelType == 4 ? 0 : iLevelType == 1 ? 8 : 10, moveDirection));
+}
+
+void CGameMap::addKoppa(int iX, int iY, int minionState, bool moveDirection)
+{
+	int tempBlock;
+
+	switch (minionState) {
+	/*case 0: case 3:
+		tempBlock = iLevelType == 0 || iLevelType == 4 ? 7 : iLevelType == 1 ? 14 : 17;
+		break;*/
+	case 1:
+		tempBlock = iLevelType == 0 || iLevelType == 4 ? 7 : iLevelType == 1 ? 12 : 15;
+		break;
+	case 2:
+		tempBlock = iLevelType == 0 || iLevelType == 4 ? 6 : iLevelType == 1 ? 13 : 16;
+		break;
+	}
+
+	lMinion[getListID(iX)].push_back(new CGameKoppa(iX, iY, minionState, moveDirection, tempBlock));
 }
 
 Vector2* CGameMap::getBlockID(int nX, int nY)
@@ -622,7 +642,7 @@ void CGameMap::checkCollisionOnTopOfTheBlock(int nX, int nY)
                 if (lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= SIZE_Y - 24 - nY * 32 && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() <= SIZE_Y - nY * 32 + 16)
                 {
                     lMinion[i][j]->setMoveDirection(!lMinion[i][j]->getMoveDirection());
-                    lMinion[i][j]->setMinionState(-2, this);
+                    lMinion[i][j]->setMinionState(-2);
                 }
 }
 
@@ -634,9 +654,12 @@ void CGameMap::playerDeath(bool animation)
 		//oPlayer->resetPowerLVL();
 
 		if (animation)
+		{
 			oPlayer->SetY(oPlayer->GetY() + 4.0f);
+			CSpecialEffect::Delay(500);
+		}
 
-
+		CAudio::Instance()->Play(AUDIO_DEATH);
 		isPlayerDeath = true;
 }
 
@@ -765,8 +788,19 @@ void CGameMap::loadLVL_1_1()
 void CGameMap::loadMinionsLVL_1_1()
 {
 	clearMinions();
+
 	addGoombas(12 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
 	addGoombas(17 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(20 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(48 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 6 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(53 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 10 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(60 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(62 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(100 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
+	addGoombas(102 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 29, true);
+
+	addKoppa(67 * BLOCK_WIDTH_HEIGHT, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 41, 1, true);
+
 }
 
 void CGameMap::clearMap()
@@ -1061,11 +1095,6 @@ void CGameMap::setMoveMap(bool bMoveMap)
     this->bMoveMap = bMoveMap;
 }
 
-void CGameMap::TimeTick()
-{
-    oPlayer->TimeTick();
-}
-
 void CGameMap::setIsPlayerDeath(bool isPlayerDeath)
 {
 	this->isPlayerDeath = isPlayerDeath;
@@ -1146,7 +1175,7 @@ void CGameMap::loadGameData()
 	vBlock.push_back(new CGameBlock(23, IDB_BLOCK_DEBRIS_LEFT, false, false, false, true));
 	vBlock.push_back(new CGameBlock(24, IDB_BLOCK_DEBRIS_RIGHT, false, false, false, true));
     // --------------- Enemy ---------------
-    //enemy
+    //enemy_normal
     vMinion.push_back(new CGameBlock(0, IDB_ENEMY_NORMAL, true, false, true, true));
 	//mushroom
 	vMinion.push_back(new CGameBlock(1, IDB_MUSHROOM_GOOD, true, false, true, true));
@@ -1156,9 +1185,19 @@ void CGameMap::loadGameData()
 	vMinion.push_back(new CGameBlock(4, IDB_FLOWER, true, false, true, true));
 	//star
 	vMinion.push_back(new CGameBlock(5, IDB_STAR_1, true, false, false, true));
+	//enemy_turtle
+	vMinion.push_back(new CGameBlock(6, IDB_ENEMY_TURTLE_1, true, false, true, true));
+	vMinion.push_back(new CGameBlock(7, IDB_ENEMY_TURTLE_2, true, false, true, true));
 
     iBlockSize = vBlock.size();
     iMinionSize = vMinion.size();
+
+	CAudio::Instance()->Load(AUDIO_FIELD, "sounds\\BGM\\field.wav");
+	CAudio::Instance()->Load(AUDIO_BLOCK_BREAK, "sounds\\SE\\blockbreak.wav");
+	CAudio::Instance()->Load(AUDIO_BLOCK_COIN, "sounds\\SE\\blockcoin.wav");
+	CAudio::Instance()->Load(AUDIO_BLOCK_USE, "sounds\\SE\\blockkinoko.wav");
+	CAudio::Instance()->Load(AUDIO_JUMP, "sounds\\SE\\jump.wav");
+	CAudio::Instance()->Load(AUDIO_DEATH, "sounds\\SE\\death.wav");
 }
 
 void CGameMap::createMap()
