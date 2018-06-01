@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1a913106-0be0-4476-b0ce-2aa855072614}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="MFC">
+      <UniqueIdentifier>{da904ee8-7f59-4a6c-b3ff-b91b6fb6d0ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLibrary">
+      <UniqueIdentifier>{df7aa532-3fdf-46a0-b3fc-8f5922e8d9e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame">
+      <UniqueIdentifier>{0c798913-b7d2-4e26-8241-0f83266cd626}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\audio.cpp">
+      <Filter>GameLibrary</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\game.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\gameDoc.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\gamelib.cpp">
+      <Filter>GameLibrary</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\gameView.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainFrm.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StdAfx.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\mygame.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameMap.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vector2.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameBlock.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameMapLevel.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGamePlayer.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameCoin.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameBlockDebris.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameMushroom.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameMinion.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameStar.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameGoombas.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameKoppa.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameSprite.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\audio.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\game.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\gameDoc.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\gamelib.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\gameView.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MainFrm.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StdAfx.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\mygame.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameMap.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vector2.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameBlock.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameMapLevel.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGamePlayer.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameCoin.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameBlockDebris.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameMushroom.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameMinion.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameStar.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameGoombas.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameKoppa.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameSprite.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Source\game.rc">
+      <Filter>MFC</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="RES\background\tree 1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\tree 2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud 1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud 2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud 3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud 4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\fire.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\flag.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\mountain.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_floor_1_ground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_floor_1_sky.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_floor_2_ground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_fragile_ground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_item_1_common.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_item_2_ground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_sturdy_ground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\player\player_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\player\player_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\player\player_3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\player\player_4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\player\player_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\enemy\enemy_normal.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\enemy\enemy_rasing.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\item\coin.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\item\mushroom_good.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\props\stick.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\props\flag.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\save_point.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\continue.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\loading.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\background\mainfram.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp0.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp9.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\bmp10.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\title.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\GAME.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\brush_top.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\bush_center_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\bush_center_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\bush_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\bush_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\grass_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\grass_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\SyobonAction\RES\block\block_floor_1_ground.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\transparent.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud _1_center.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud _1_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud _1_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud _1_top.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud _2_center.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\cloud _1_bottom.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_debris.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_debris_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\block\block_debris_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\item\flower.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\item\star_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\background\bitmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\enemy\enemy_turtle_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\enemy\enemy_turtle_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RES\GAME.RC2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -276,6 +276,3 @@ _Pvt_Extensions
 Bitmaps/
 *.db
 *.sln
-*.vcxproj
-*.filters
-*.vdproj
