@@ -94,8 +94,6 @@ class CGameStateRun : public CGameState
 		bool isLeftPressed = false;
 		bool isRightPressed = false;
 		bool firstDir; // ----- true = RIGHT, false = LEFT
-		/*CGamePlayer bmp;
-		vector<CGameEnemy*> bmp;*/
 		int UpClickCount = 0;
 };
 
@@ -114,6 +112,7 @@ class CGameStateOver : public CGameState
         void OnMove();									// 移动游戏元素
         void OnShow();									// 显示这个状态的游戏画面
     private:
+		CMovingBitmap player_bmp;
         int counter;	// 倒数之计数器
 		int lives = 3;
 };

@@ -168,9 +168,9 @@ IDB_FLOWER              BITMAP                  "..\\RES\\item\\flower.bmp"
 
 IDB_STAR_1              BITMAP                  "..\\RES\\item\\star_1.bmp"
 
-IDB_ENEMY_TURTLE_1      BITMAP                  "D:\\TAIPEI TECH\\2018_Spring\\oop\\new\\SyobonAction\\RES\\enemy\\enemy_turtle_1.bmp"
+IDB_ENEMY_TURTLE_1      BITMAP                  "..\\RES\\enemy\\enemy_turtle_1.bmp"
 
-IDB_ENEMY_TURTLE_2      BITMAP                  "D:\\TAIPEI TECH\\2018_Spring\\oop\\new\\SyobonAction\\RES\\enemy\\enemy_turtle_2.bmp"
+IDB_ENEMY_TURTLE_2      BITMAP                  "..\\RES\\enemy\\enemy_turtle_2.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

@@ -124,11 +124,11 @@ void CGameMap::UpdateMinionsCollisions()
     {
         for (unsigned int j = 0; j < lMinion[i].size(); j++)
         {
-            if (!lMinion[i][j]->getCollisionOnlyWithPlayer() /*&& lMinion[i][j]->minionSpawned*/ && lMinion[i][j]->getDeadTime() < 0)
+            if (!lMinion[i][j]->getCollisionOnlyWithPlayer()&& lMinion[i][j]->getDeadTime() < 0)
             {
                 // ----- WITH MINIONS IN SAME LIST
                 for (unsigned int k = j + 1; k < lMinion[i].size(); k++)
-                    if (!lMinion[i][k]->getCollisionOnlyWithPlayer() /*&& lMinion[i][k]->minionSpawned*/ && lMinion[i][k]->getDeadTime() < 0)
+                    if (!lMinion[i][k]->getCollisionOnlyWithPlayer() && lMinion[i][k]->getDeadTime() < 0)
                         if (lMinion[i][j]->getXPos() < lMinion[i][k]->getXPos())
                             if (lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX() >= lMinion[i][k]->getXPos() && lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX() <= lMinion[i][k]->getXPos() + lMinion[i][k]->getHitBoxX() && ((lMinion[i][j]->getYPos() <= lMinion[i][k]->getYPos() + lMinion[i][k]->getHitBoxY() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= lMinion[i][k]->getYPos() + lMinion[i][k]->getHitBoxY()) || (lMinion[i][k]->getYPos() <= lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() && lMinion[i][k]->getYPos() + lMinion[i][k]->getHitBoxY() >= lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY())))
                             {
@@ -233,15 +233,6 @@ void CGameMap::UpdateMinionsCollisions()
                                         lMinion[i + 1][k]->collisionWithAnotherUnit();
                                     }
 
-                                    /*
-                                    if(lMinion[i][j]->getYPos() + lMinion[i][j]->iHitBoxY < lMinion[i + 1][k]->getYPos() + lMinion[i + 1][k]->iHitBoxY) {
-                                    lMinion[i][j]->onAnotherMinion = true;
-                                    continue;
-                                    } else {
-                                    lMinion[i + 1][k]->onAnotherMinion = true;
-                                    continue;
-                                    }*/
-
                                     if (lMinion[i][j]->getYPos() - 4 <= lMinion[i + 1][k]->getYPos() + lMinion[i + 1][k]->getHitBoxY() && lMinion[i][j]->getYPos() + 4 >= lMinion[i + 1][k]->getYPos() + lMinion[i + 1][k]->getHitBoxY())
                                     {
                                         lMinion[i + 1][k]->setOnAnotherMinion(true);
@@ -266,14 +257,25 @@ void CGameMap::UpdateMinionsCollisions()
 
     //if (!inEvent && !oPlayer->getInLevelAnimation())
     // ----- COLLISION WITH PLAYER
-    for (int i = getListID(-(int)fXPos + oPlayer->GetX()) - (getListID(-(int)fXPos + oPlayer->GetX()) > 0 ? 1 : 0), iSize = i + 2; i < iSize; i++)
-        for (unsigned int j = 0, jSize = lMinion[i].size(); j < jSize; j++)
-            if (lMinion[i][j]->getDeadTime() < 0)
-                if ((oPlayer->GetX() - fXPos >= lMinion[i][j]->getXPos() && oPlayer->GetY() - fXPos <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX()) || (oPlayer->GetX() - fXPos + oPlayer->Width() >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos + oPlayer->Width() <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX()))
-                    if (lMinion[i][j]->getYPos() - 2 <= oPlayer->GetY() + oPlayer->Height() && lMinion[i][j]->getYPos() + 16 >= oPlayer->GetY() + oPlayer->Height())
-                        lMinion[i][j]->collisionWithPlayer(true, this);
-                    else if ((lMinion[i][j]->getYPos() <= oPlayer->GetY() + oPlayer->Height() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY() + oPlayer->Height()) || (lMinion[i][j]->getYPos() <= oPlayer->GetY() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY()))
-                        lMinion[i][j]->collisionWithPlayer(false, this);
+    for (int i = getListID(-(int)fXPos + oPlayer->GetX()) - (getListID(-(int)fXPos + oPlayer->GetX()) > 0 ? 1 : 0), iSize = i + 2; i < iSize; i++) 
+	//for (int i = getListID(-(int)fXPos), iSize = getListID(-(int)fXPos + SIZE_X); i < iSize; i++)
+	{
+		for (unsigned int j = 0, jSize = lMinion[i].size(); j < jSize; j++)
+		{
+			if (lMinion[i][j]->getDeadTime() < 0)
+			{
+				if ((oPlayer->GetX() - fXPos >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX()) || (oPlayer->GetX() - fXPos + oPlayer->Width() >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos + oPlayer->Width() <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX())) 
+				{
+					if (lMinion[i][j]->getYPos() - 2 <= oPlayer->GetY() + oPlayer->Height() && lMinion[i][j]->getYPos() + 16 >= oPlayer->GetY() + oPlayer->Height()) {
+						lMinion[i][j]->collisionWithPlayer(true, this);
+					}
+					else if ((lMinion[i][j]->getYPos() <= oPlayer->GetY() + oPlayer->Height() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY() + oPlayer->Height()) || (lMinion[i][j]->getYPos() - (oPlayer->Height() - lMinion[i][j]->getHitBoxY()) <= oPlayer->GetY() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY())) {
+						lMinion[i][j]->collisionWithPlayer(false, this);
+					}
+				}
+			}
+		}
+	}
 }
 
 //void CGameMap::UpdateMinionBlokcs()

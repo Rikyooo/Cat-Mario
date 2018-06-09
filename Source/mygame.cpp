@@ -17,17 +17,7 @@ namespace game_framework
 
 	void CGameStateInit::OnInit()
 	{
-		//
-		// 当图很多时，OnInit载入所有的图要花很多时间。为避免玩游戏的人
-		//     等的不耐烦，游戏会出现“Loading ...”，显示Loading的进度。
-		//
 		CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 将 Back Plain 涂上预设的颜色
-		ShowInitProgress(0);	// 一开始的loading进度为0%
-								//
-								// 开始载入资料
-								//
-								/*logo.LoadBitmap(IDB_BACKGROUND);*/
-
 		title_bmp.LoadBitmap(IDB_TITLE);
 		block_floor_1_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_1_GROUND);
 		block_floor_2_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_2_GROUND);
@@ -39,11 +29,6 @@ namespace game_framework
 		bush_center_2_bmp.LoadBitmap(IDB_BUSH_CENTER_2);
 		bush_left_bmp.LoadBitmap(IDB_BUSH_LEFT);
 		bush_right_bmp.LoadBitmap(IDB_BUSH_RIGHT);
-		
-		//Sleep(300);				// 放慢，以便看清楚进度，实际游戏请删除此Sleep
-								//
-								// 此OnInit动作会接到CGameStaterRun::OnInit()，所以进度还没到100%
-								//
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -150,25 +135,13 @@ namespace game_framework
 
 	void CGameStateOver::OnBeginState()
 	{
-		counter = 60 * 3; // 2 seconds
+		counter = 60 * 2; // 2 seconds
 		lives--;
 	}
 
 	void CGameStateOver::OnInit()
 	{
-		//
-		// 当图很多时，OnInit载入所有的图要花很多时间。为避免玩游戏的人
-		//     等的不耐烦，游戏会出现“Loading ...”，显示Loading的进度。
-		//
-		ShowInitProgress(66);	// 接个前一个状态的进度，此处进度视为66%
-								//
-								// 开始载入资料
-								//
-		//Sleep(300);				// 放慢，以便看清楚进度，实际游戏请删除此Sleep
-								//
-								// 最终进度为100%
-								//
-		ShowInitProgress(100);
+		player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(0, 0, 255));
 	}
 
 	void CGameStateOver::OnShow()
@@ -181,11 +154,13 @@ namespace game_framework
 		pDC->SetBkColor(RGB(0, 0, 0));
 		pDC->SetTextColor(RGB(255, 255, 255));
 		char str[80];								// Demo 数字对字串的转换
-		sprintf(str, "Lives x %d", lives);
-		pDC->TextOut(270, 210, str);
+		sprintf(str, "x %d", lives);
+		pDC->TextOut(310, 210, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千万不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-		TRACE("GameStateOver OnShow\n");
+		player_bmp.SetTopLeft(280, 200); // 贴上player
+		player_bmp.ShowBitmap();
+		//TRACE("GameStateOver OnShow\n");
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -247,47 +222,16 @@ namespace game_framework
 			map->getPlayer()->SetY(SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 37);	
 			CAudio::Instance()->Stop(AUDIO_FIELD);
 			GotoGameState(GAME_STATE_OVER);
-			TRACE("GotoGameState(GAME_STATE_OVER);\n");
+			//TRACE("GotoGameState(GAME_STATE_OVER);\n");
 		}
 	}
 
 	void CGameStateRun::OnInit()  								// 游戏的初值及图形设定
 	{
-		//
-		// 当图很多时，OnInit载入所有的图要花很多时间。为避免玩游戏的人
-		//     等的不耐烦，游戏会出现“Loading ...”，显示Loading的进度。
-		//
 		CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 将 Back Plain 涂上预设的颜色
-		ShowInitProgress(33);	// 接个前一个状态的进度，此处进度视为33%
-								//
-								// 开始载入资料
-								//
-								//for (int i = 0; i < NUMBALLS; i++)
-								//	ball[i].LoadBitmap();								// 载入第i个球的图形
-								//eraser.LoadBitmap();
-		//map_stage_1.LoadBitmap(); //载入地图
-		//bmp.LoadBitmap();
-		//for (unsigned int i = 0; i < bmp.size(); i++)
-		//	bmp[i]->LoadBitmap();
 		/*map.setSpawnPoint();*/
 		map = new CGameMap();
 		map->LoadBitmap();
-																	//
-																	// 完成部分Loading动作，提高进度
-																	//
-		ShowInitProgress(50);
-		//Sleep(300); // 放慢，以便看清楚进度，实际游戏请删除此Sleep
-					//
-					// 继续载入其他资料
-					//
-					//help.LoadBitmap(IDB_HELP,RGB(255,255,255));				// 载入说明的图形
-					//corner.LoadBitmap(IDB_CORNER);							// 载入角落图形
-					//corner.ShowBitmap(background);							// 将corner贴到background
-					//bball.LoadBitmap();										// 载入图形
-		/*hits_left.LoadBitmap();*/
-		//CAudio::Instance()->Load(AUDIO_DING,  "sounds\\ding.wav");	// 载入编号0的声音ding.wav
-		//CAudio::Instance()->Load(AUDIO_LAKE,  "sounds\\lake.mp3");	// 载入编号1的声音lake.mp3
-		//CAudio::Instance()->Load(AUDIO_NTUT,  "sounds\\ntut.mid");	// 载入编号2的声音ntut.mid
 		//
 		// 此OnInit动作会接到CGameStaterOver::OnInit()，所以进度还没到100%
 		//
@@ -359,12 +303,12 @@ namespace game_framework
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 处理滑鼠的动作
 	{
-		/*eraser.SetMovingLeft(true);*/
+
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 处理滑鼠的动作
 	{
-		/*eraser.SetMovingLeft(false);*/
+
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 处理滑鼠的动作
@@ -374,12 +318,12 @@ namespace game_framework
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 处理滑鼠的动作
 	{
-		/*eraser.SetMovingRight(true);*/
+
 	}
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 处理滑鼠的动作
 	{
-		/*eraser.SetMovingRight(false);*/
+
 	}
 
 	void CGameStateRun::OnShow()

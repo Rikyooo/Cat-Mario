@@ -23,7 +23,7 @@ namespace game_framework
 
 		for (int i = 0; i < this->iEndFrame + 1; i++) 
 		{
-			CMovingBitmap* tempBitmap;
+			CMovingBitmap* tempBitmap = new CMovingBitmap();
 			tempBitmap->LoadBitmap(iSprite[i]);
 			this->vSprite.push_back(tempBitmap); 
 		}
