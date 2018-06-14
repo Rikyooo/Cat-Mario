@@ -5,25 +5,24 @@
 namespace game_framework
 {
 	class CGameMap;
+	class CGameSprite;
 
 	class CGamePlayer
 	{
 	public:
 		CGamePlayer(float fXPos, float fYPos);
-		void LoadBitmap();
-		/*void OnMove(CGameMap *map);
-		void OnShow(CGameMap *map);*/
-		int Width();
-		int Height();
-		void SetMovingLeft(bool);
-		void SetMovingRight(bool);
-		void SetMovingUp(bool);
+		~CGamePlayer();
+		//void LoadBitmap();
+		int GetHitBoxX();
+		int GetHitBoxY();
 		void SetX(float);
 		int GetX();
 		void SetY(float);
 		int GetY();
-		void SetIsOnland(bool);
-		bool IsFalling();
+		
+		int getPowerLVL();
+		void setPowerLVL(int powerLVL);
+		void resetPowerLVL();
 
 		void Draw();
 		void Update(CGameMap *map);
@@ -45,6 +44,10 @@ namespace game_framework
 		void startJump(int iH);
 		void resetJump();
 
+		void setMarioSpriteID(int iID);
+		int getMarioSpriteID();
+
+		void moveAnimation();
 		int getMoveSpeed();
 		bool getMove();
 		bool getMoveDirection();
@@ -54,16 +57,22 @@ namespace game_framework
 		void setNextFallFrameID(int nextFallFrameID);
 		int getJumpState();
 
+		CGameSprite* getMarioSprite();
+
+		void Death(bool animation);
+		void setIsPlayerDeath(bool isPlayerDeath);
+		bool IsPlayerDeath();
+
+
 	private:
-		CMovingBitmap player_bmp;
+		std::vector<CGameSprite*> sMario;
+		int iSpriteID;
+		unsigned int iMoveAnimationTime;
+		int powerLVL;
+		bool isPlayerDeath;
+
+		//CMovingBitmap player_bmp;
 		float fXPos, fYPos;   //玩家在地图上的点坐标
-		bool isMovingLeft = false;
-		bool isMovingRight = false;
-		bool isMovingUp = false;
-		int jumpingCount = 0;
-		//int fallSpeed = 0;
-		bool isFalling = false;
-		bool isOnland = true;
 
 		bool moveDirection; // true = LEFT, false = RIGHT
 		bool bMove;
@@ -74,7 +83,6 @@ namespace game_framework
 		int currentMaxMove;
 		int moveSpeed;
 		unsigned int iTimePassed;
-		int iTimeTick;
 
 		bool isUpPressed;
 		int jumpState;

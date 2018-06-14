@@ -21,7 +21,8 @@ namespace game_framework
 		AUDIO_BLOCK_COIN,			// 2
 		AUDIO_BLOCK_USE,			// 3
 		AUDIO_JUMP,			        // 4
-		AUDIO_DEATH                 // 5
+		AUDIO_DEATH,                // 5
+		AUDIO_HUMI                  // 6
 	};
 
 	//map class
@@ -76,8 +77,6 @@ namespace game_framework
 		void checkCollisionOnTopOfTheBlock(int nX, int nY);
 		//// ********** COLLISION
 
-		void playerDeath(bool animation);
-
 		// ----- LOAD
 		void resetGameData();
 		void loadLVL();
@@ -121,9 +120,6 @@ namespace game_framework
 
 		bool getMoveMap();
 		void setMoveMap(bool bMoveMap);
-
-		void setIsPlayerDeath(bool isPlayerDeath);
-		bool IsPlayerDeath();
 
 	private:
 

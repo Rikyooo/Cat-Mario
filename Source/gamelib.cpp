@@ -234,7 +234,7 @@ void CAnimation::OnShow()
 {
     GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded before they are shown.");
     bmp_iter->SetTopLeft(x,y);
-    bmp_iter->ShowBitmap();
+    bmp_iter->ShowBitmap(false);
 }
 
 int CAnimation::Top()
@@ -255,83 +255,83 @@ int CAnimation::Width()
 // 2. 自己写到运用CMovingBitmap的程式时，可以参考下列程式的写法
 /////////////////////////////////////////////////////////////////////////////
 
-CMovingBitmap CInteger::digit[11];
-
-CInteger::CInteger(int digits)
-    : NUMDIGITS(digits)
-{
-    isBmpLoaded = false;
-}
-
-void CInteger::Add(int x)
-{
-    n += x;
-}
-
-int CInteger::GetInteger()
-{
-    return n;
-}
-
-void CInteger::LoadBitmap()
-{
-    //
-    // digit[i]为class varibale，所以必须避免重复LoadBitmap
-    //
-    if (!isBmpLoaded)
-    {
-        int d[11]= {IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS};
-
-        for (int i=0; i < 11; i++)
-            digit[i].LoadBitmap(d[i],RGB(255,255,255));
-
-        isBmpLoaded = true;
-    }
-}
-
-void CInteger::SetInteger(int i)
-{
-    n = i;
-}
-
-void CInteger::SetTopLeft(int nx, int ny)		// 将动画的左上角座标移至 (x,y)
-{
-    x = nx;
-    y = ny;
-}
-
-void CInteger::ShowBitmap()
-{
-    GAME_ASSERT(isBmpLoaded, "CInteger: 请先执行LoadBitmap，然后才能ShowBitmap");
-    int nx;		// 待显示位数的 x 座标
-    int MSB;	// 最左边(含符号)的位数的数值
-
-    if (n >= 0)
-    {
-        MSB = n;
-        nx = x+digit[0].Width()*(NUMDIGITS-1);
-    }
-    else
-    {
-        MSB = -n;
-        nx = x+digit[0].Width()*NUMDIGITS;
-    }
-
-    for (int i=0; i < NUMDIGITS; i++)
-    {
-        int d = MSB % 10;
-        MSB /= 10;
-        digit[d].SetTopLeft(nx, y);
-        digit[d].ShowBitmap();
-        nx -= digit[d].Width();
-    }
-
-    if (n < 0)   // 如果小于0，则显示负号
-    {
-        digit[10].SetTopLeft(nx, y);
-        digit[10].ShowBitmap();
-    }
-}
+//CMovingBitmap CInteger::digit[11];
+//
+//CInteger::CInteger(int digits)
+//    : NUMDIGITS(digits)
+//{
+//    isBmpLoaded = false;
+//}
+//
+//void CInteger::Add(int x)
+//{
+//    n += x;
+//}
+//
+//int CInteger::GetInteger()
+//{
+//    return n;
+//}
+//
+//void CInteger::LoadBitmap()
+//{
+//    //
+//    // digit[i]为class varibale，所以必须避免重复LoadBitmap
+//    //
+//    if (!isBmpLoaded)
+//    {
+//        int d[11]= {IDB_0,IDB_1,IDB_2,IDB_3,IDB_4,IDB_5,IDB_6,IDB_7,IDB_8,IDB_9,IDB_MINUS};
+//
+//        for (int i=0; i < 11; i++)
+//            digit[i].LoadBitmap(d[i],RGB(255,255,255));
+//
+//        isBmpLoaded = true;
+//    }
+//}
+//
+//void CInteger::SetInteger(int i)
+//{
+//    n = i;
+//}
+//
+//void CInteger::SetTopLeft(int nx, int ny)		// 将动画的左上角座标移至 (x,y)
+//{
+//    x = nx;
+//    y = ny;
+//}
+//
+//void CInteger::ShowBitmap()
+//{
+//    GAME_ASSERT(isBmpLoaded, "CInteger: 请先执行LoadBitmap，然后才能ShowBitmap");
+//    int nx;		// 待显示位数的 x 座标
+//    int MSB;	// 最左边(含符号)的位数的数值
+//
+//    if (n >= 0)
+//    {
+//        MSB = n;
+//        nx = x+digit[0].Width()*(NUMDIGITS-1);
+//    }
+//    else
+//    {
+//        MSB = -n;
+//        nx = x+digit[0].Width()*NUMDIGITS;
+//    }
+//
+//    for (int i=0; i < NUMDIGITS; i++)
+//    {
+//        int d = MSB % 10;
+//        MSB /= 10;
+//        digit[d].SetTopLeft(nx, y);
+//        digit[d].ShowBitmap();
+//        nx -= digit[d].Width();
+//    }
+//
+//    if (n < 0)   // 如果小于0，则显示负号
+//    {
+//        digit[10].SetTopLeft(nx, y);
+//        digit[10].ShowBitmap();
+//    }
+//}
 
 /////////////////////////////////////////////////////////////////////////////
 // CMovingBitmap: Moving Bitmap class
@@ -358,6 +358,7 @@ int CMovingBitmap::Left()
 
 void CMovingBitmap::LoadBitmap(int IDB_BITMAP, COLORREF color)
 {
+	//TRACE("bitmap: %d", IDB_BITMAP);
     const int nx = 0;
     const int ny = 0;
     GAME_ASSERT(!isBitmapLoaded,"A bitmap has been loaded. You can not load another bitmap !!!");
@@ -412,10 +413,10 @@ void CMovingBitmap::SetTopLeft(int x, int y)
     location.bottom -= dy;
 }
 
-void CMovingBitmap::ShowBitmap()
+void CMovingBitmap::ShowBitmap(bool isHorizontalFlip)
 {
     GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before ShowBitmap() is called !!!");
-    CDDraw::BltBitmapToBack(SurfaceID,location.left,location.top);
+    CDDraw::BltBitmapToBack(SurfaceID,location.left,location.top,isHorizontalFlip);
 }
 
 void CMovingBitmap::ShowBitmap(double factor)
@@ -474,10 +475,10 @@ void CGameState::ShowInitProgress(int percent)
     const int progress_x2_end = x2 - pen_width;
     const int progress_y1 = y1 + pen_width;
     const int progress_y2 = y2 - pen_width;
-    CMovingBitmap loading;						// 贴上loading图示
-    loading.LoadBitmap(IDB_LOADING, RGB(0,0,0));
-    loading.SetTopLeft((SIZE_X - loading.Width())/2, y1 - 2 * loading.Height());
-    loading.ShowBitmap();
+    //CMovingBitmap loading;						// 贴上loading图示
+    //loading.LoadBitmap(IDB_LOADING, RGB(0,0,0));
+    //loading.SetTopLeft((SIZE_X - loading.Width())/2, y1 - 2 * loading.Height());
+    //loading.ShowBitmap();
     //
     // 以下为CDC的用法
     //
@@ -552,16 +553,16 @@ void CGame::OnDraw()
     CDDraw::BltBackColor(DEFAULT_BG_COLOR);	// 将 Back Plain 涂黑
     gameState->OnDraw();					// 显示游戏中的每个元素
 
-    if (!running)
-    {
-        //
-        // 如果在暂停状态，则显示Ctrl-Q...
-        //
-        CMovingBitmap bmp;
-        bmp.LoadBitmap(IDB_CONTINUE);
-        bmp.SetTopLeft(0,0);
-        bmp.ShowBitmap();
-    }
+    //if (!running)
+    //{
+    //    //
+    //    // 如果在暂停状态，则显示Ctrl-Q...
+    //    //
+    //    CMovingBitmap bmp;
+    //    bmp.LoadBitmap(IDB_CONTINUE);
+    //    bmp.SetTopLeft(0,0);
+    //    bmp.ShowBitmap();
+    //}
 
     CDDraw::BltBackToPrimary();				// 将 Back Plain 贴到荧幕
 }
@@ -893,7 +894,7 @@ void CDDraw::BltBackToPrimary()
     }
 }
 
-void CDDraw::BltBitmapToBack(unsigned SurfaceID, int x, int y)
+void CDDraw::BltBitmapToBack(unsigned SurfaceID, int x, int y, bool isHorizontalFlip)
 {
     GAME_ASSERT(lpDDSBack && (SurfaceID < lpDDS.size()) && lpDDS[SurfaceID], "Internal Error: Incorrect SurfaceID in BltBitmapToBack");
     CRect TargetRect;
@@ -903,8 +904,13 @@ void CDDraw::BltBitmapToBack(unsigned SurfaceID, int x, int y)
     TargetRect.bottom = y + BitmapRect[SurfaceID].bottom-BitmapRect[SurfaceID].top;
     int blt_flag;
 
-    if (BitmapColorKey[SurfaceID] != CLR_INVALID)
-        blt_flag = DDBLT_WAIT | DDBLT_KEYSRC;
+	if (BitmapColorKey[SurfaceID] != CLR_INVALID)
+	{
+		if (isHorizontalFlip)
+			blt_flag = DDBLT_WAIT | DDBLT_KEYSRC | DDBLT_DDFX;
+		else
+			blt_flag = DDBLT_WAIT | DDBLT_KEYSRC;
+	}
     else
         blt_flag = DDBLT_WAIT;
 
@@ -914,7 +920,16 @@ void CDDraw::BltBitmapToBack(unsigned SurfaceID, int x, int y)
     if (lpDDS[SurfaceID]->IsLost())
         RestoreSurface();
 
-    ddrval = lpDDSBack->Blt(TargetRect, lpDDS[SurfaceID],NULL, blt_flag, NULL);
+	if (isHorizontalFlip)
+	{
+		DDBLTFX ddbltfx;
+		ZeroMemory(&ddbltfx, sizeof(ddbltfx));
+		ddbltfx.dwSize = sizeof(ddbltfx);
+		ddbltfx.dwDDFX = DDBLTFX_MIRRORLEFTRIGHT;
+		ddrval = lpDDSBack->Blt(TargetRect, lpDDS[SurfaceID], NULL, blt_flag, &ddbltfx);
+	}
+	else
+		ddrval = lpDDSBack->Blt(TargetRect, lpDDS[SurfaceID],NULL, blt_flag, NULL);
     CheckDDFail("Blt Bitmap to Back Failed");
 }
 

@@ -102,32 +102,6 @@ IDB_FLAG                BITMAP                  "..\\RES\\props\\flag.bmp"
 
 IDB_SAVE_POINT          BITMAP                  "..\\RES\\background\\save_point.bmp"
 
-IDB_CONTINUE            BITMAP                  "..\\RES\\continue.bmp"
-
-IDB_LOADING             BITMAP                  "..\\RES\\loading.bmp"
-
-IDB_0                   BITMAP                  "..\\RES\\bmp0.bmp"
-
-IDB_1                   BITMAP                  "..\\RES\\bmp1.bmp"
-
-IDB_2                   BITMAP                  "..\\RES\\bmp2.bmp"
-
-IDB_3                   BITMAP                  "..\\RES\\bmp3.bmp"
-
-IDB_4                   BITMAP                  "..\\RES\\bmp4.bmp"
-
-IDB_5                   BITMAP                  "..\\RES\\bmp5.bmp"
-
-IDB_6                   BITMAP                  "..\\RES\\bmp6.bmp"
-
-IDB_7                   BITMAP                  "..\\RES\\bmp7.bmp"
-
-IDB_8                   BITMAP                  "..\\RES\\bmp8.bmp"
-
-IDB_9                   BITMAP                  "..\\RES\\bmp9.bmp"
-
-IDB_MINUS               BITMAP                  "..\\RES\\bmp10.bmp"
-
 IDB_TITLE               BITMAP                  "..\\RES\\title.bmp"
 
 IDB_BUSH_TOP            BITMAP                  "..\\RES\\background\\brush_top.bmp"
@@ -171,6 +145,8 @@ IDB_STAR_1              BITMAP                  "..\\RES\\item\\star_1.bmp"
 IDB_ENEMY_TURTLE_1      BITMAP                  "..\\RES\\enemy\\enemy_turtle_1.bmp"
 
 IDB_ENEMY_TURTLE_2      BITMAP                  "..\\RES\\enemy\\enemy_turtle_2.bmp"
+
+IDB_PLAYER_5            BITMAP                  "D:\\TAIPEI TECH\\2018_Spring\\oop\\new\\SyobonAction\\RES\\player\\player_5.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

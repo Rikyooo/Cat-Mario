@@ -52,50 +52,50 @@ namespace game_framework
 		// 贴上title
 		//
 		title_bmp.SetTopLeft((SIZE_X - title_bmp.Width()) / 2, SIZE_Y / 7);
-		title_bmp.ShowBitmap();
+		title_bmp.ShowBitmap(false);
 		//
 		// 贴上floor
 		//
 		for (int i = 0; i < 20; i++)
 		{
 			block_floor_1_ground_bmp.SetTopLeft(BLOCK_WIDTH_HEIGHT * i, BLOCK_WIDTH_HEIGHT * 13);
-			block_floor_1_ground_bmp.ShowBitmap();
+			block_floor_1_ground_bmp.ShowBitmap(false);
 			block_floor_2_ground_bmp.SetTopLeft(BLOCK_WIDTH_HEIGHT * i, BLOCK_WIDTH_HEIGHT * 14);
-			block_floor_2_ground_bmp.ShowBitmap();
+			block_floor_2_ground_bmp.ShowBitmap(false);
 		}
 		//
 		// 贴上player
 		//
 		player_bmp.SetTopLeft(2 * BLOCK_WIDTH_HEIGHT + 6, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - player_bmp.Height());
-		player_bmp.ShowBitmap();
+		player_bmp.ShowBitmap(false);
 		////
 		//// 贴上grass
 		////
 		grass_left_bmp.SetTopLeft(6 * BLOCK_WIDTH_HEIGHT + 5, SIZE_Y - 3 * BLOCK_WIDTH_HEIGHT);
-		grass_left_bmp.ShowBitmap();
+		grass_left_bmp.ShowBitmap(false);
 		grass_right_bmp.SetTopLeft(7 * BLOCK_WIDTH_HEIGHT + 5, SIZE_Y - 3 * BLOCK_WIDTH_HEIGHT);
-		grass_right_bmp.ShowBitmap();
+		grass_right_bmp.ShowBitmap(false);
 		////
 		//// 贴上bush
 		////
 		bush_left_bmp.SetTopLeft(12 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y -  3 * BLOCK_WIDTH_HEIGHT);
-		bush_left_bmp.ShowBitmap();
+		bush_left_bmp.ShowBitmap(false);
 		bush_left_bmp.SetTopLeft(13 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y -  4 * BLOCK_WIDTH_HEIGHT);
-		bush_left_bmp.ShowBitmap();
+		bush_left_bmp.ShowBitmap(false);
 		bush_right_bmp.SetTopLeft(15 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 4 * BLOCK_WIDTH_HEIGHT);
-		bush_right_bmp.ShowBitmap();
+		bush_right_bmp.ShowBitmap(false);
 		bush_right_bmp.SetTopLeft(16 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 3 * BLOCK_WIDTH_HEIGHT);
-		bush_right_bmp.ShowBitmap();
+		bush_right_bmp.ShowBitmap(false);
 		bush_center_1_bmp.SetTopLeft(14 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 3 * BLOCK_WIDTH_HEIGHT);
-		bush_center_1_bmp.ShowBitmap();
+		bush_center_1_bmp.ShowBitmap(false);
 		bush_center_2_bmp.SetTopLeft(13 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 3 * BLOCK_WIDTH_HEIGHT);
-		bush_center_2_bmp.ShowBitmap();
+		bush_center_2_bmp.ShowBitmap(false);
 		bush_center_2_bmp.SetTopLeft(15 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 3 * BLOCK_WIDTH_HEIGHT);
-		bush_center_2_bmp.ShowBitmap();
+		bush_center_2_bmp.ShowBitmap(false);
 		bush_center_2_bmp.SetTopLeft(14 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 4 * BLOCK_WIDTH_HEIGHT);
-		bush_center_2_bmp.ShowBitmap();
+		bush_center_2_bmp.ShowBitmap(false);
 		bush_top_bmp.SetTopLeft(14 * BLOCK_WIDTH_HEIGHT + 15, SIZE_Y - 5 * BLOCK_WIDTH_HEIGHT);
-		bush_top_bmp.ShowBitmap();
+		bush_top_bmp.ShowBitmap(false);
 		//
 		// Demo荧幕字型的使用，不过开发时请尽量避免直接使用字型，改用CMovingBitmap比较好
 		//
@@ -130,7 +130,7 @@ namespace game_framework
 
 		if (counter < 0)
 			GotoGameState(GAME_STATE_RUN);
-		TRACE("GameStateRun OnMove\n");
+		//TRACE("GameStateRun OnMove\n");
 	}
 
 	void CGameStateOver::OnBeginState()
@@ -159,7 +159,7 @@ namespace game_framework
 		pDC->SelectObject(fp);						// 放掉 font f (千万不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 		player_bmp.SetTopLeft(280, 200); // 贴上player
-		player_bmp.ShowBitmap();
+		player_bmp.ShowBitmap(false);
 		//TRACE("GameStateOver OnShow\n");
 	}
 
@@ -177,7 +177,7 @@ namespace game_framework
 
 	void CGameStateRun::OnBeginState()
 	{
-		map->setIsPlayerDeath(false);
+		map->getPlayer()->setIsPlayerDeath(false);
 		map->loadLVL();
 		CAudio::Instance()->Play(AUDIO_FIELD, true);
 	}
@@ -212,7 +212,7 @@ namespace game_framework
 		map->Update();
 		map->UpdateMinionsCollisions();
 
-		if (map->IsPlayerDeath())
+		if (map->getPlayer()->IsPlayerDeath())
 		{
 			isLeftPressed = false;
 			isRightPressed = false;
@@ -328,7 +328,7 @@ namespace game_framework
 
 	void CGameStateRun::OnShow()
 	{
-		if (map->IsPlayerDeath())
+		if (map->getPlayer()->IsPlayerDeath())
 		{
 			CDDraw::BltBackColor(RGB(0, 0, 0));
 		}

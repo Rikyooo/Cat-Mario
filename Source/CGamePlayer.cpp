@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CGameMap.h"
+#include "CGameSprite.h"
 #include "CGamePlayer.h"
 
 namespace game_framework
@@ -14,8 +15,10 @@ namespace game_framework
 		this->fXPos = fXPos;
 		this->fYPos = fYPos;
 
-		//this->iSpriteID = 1;
+		this->iSpriteID = 1;
 		this->nextFallFrameID = 0;
+
+		this->powerLVL = 0;
 
 		this->moveDirection = true;
 		this->currentMaxMove = maxMove;
@@ -33,37 +36,62 @@ namespace game_framework
 		this->jumpState = 0;
 		this->startJumpSpeed = 7.65f;
 		this->currentFallingSpeed = 2.7f;
+
+		this->iMoveAnimationTime = 0;
+
+		// ---- - LOAD SPRITE
+		std::vector<int> tempI;
+		std::vector<unsigned int> tempUI;
+
+		srand((unsigned)time(NULL));
+
+		// ----- 0 death
+		tempI.push_back(IDB_PLAYER_4);
+		tempUI.push_back(0);
+		sMario.push_back(new CGameSprite(tempI, tempUI, true));
+		tempI.clear();
+
+		// ----- 1 move1
+		tempI.push_back(IDB_PLAYER_1);
+		sMario.push_back(new CGameSprite(tempI, tempUI, true));
+		tempI.clear();
+		// ----- 2 move2
+		tempI.push_back(IDB_PLAYER_2);
+		sMario.push_back(new CGameSprite(tempI, tempUI, true));
+		tempI.clear();
+		// ----- 3 jump
+		tempI.push_back(IDB_PLAYER_3);
+		sMario.push_back(new CGameSprite(tempI, tempUI, true));
+		tempI.clear();
+
+		// ----- 4 lvlup
+		tempI.push_back(IDB_PLAYER_5);
+		sMario.push_back(new CGameSprite(tempI, tempUI, true));
+		tempI.clear();
 	}
 
-	void CGamePlayer::LoadBitmap()
+	CGamePlayer::~CGamePlayer()
 	{
-		player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(0, 0, 0));
-		//player_bmp.LoadBitmap("RES//player//player_1.bmp", RGB(0, 0, 255));
+		for (std::vector<CGameSprite*>::iterator i = sMario.begin(); i != sMario.end(); i++) 
+		{
+			delete (*i);
+		}
 	}
 
-	int CGamePlayer::Width()
+	//void CGamePlayer::LoadBitmap()
+	//{
+	//	player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(0, 0, 255));
+	//	//player_bmp.LoadBitmap("RES//player//player_1.bmp", RGB(0, 0, 255));
+	//}
+
+	int CGamePlayer::GetHitBoxX()
 	{
-		return player_bmp.Width();
+		return sMario[getMarioSpriteID()]->getTexture()->Width();
 	}
 
-	int CGamePlayer::Height()
+	int CGamePlayer::GetHitBoxY()
 	{
-		return player_bmp.Height();
-	}
-
-	void CGamePlayer::SetMovingLeft(bool flag)
-	{
-		isMovingLeft = flag;
-	}
-
-	void CGamePlayer::SetMovingRight(bool flag)
-	{
-		isMovingRight = flag;
-	}
-
-	void CGamePlayer::SetMovingUp(bool flag)
-	{
-		isMovingUp = flag;
+		return sMario[getMarioSpriteID()]->getTexture()->Height();
 	}
 
 	void CGamePlayer::SetX(float x)
@@ -85,20 +113,41 @@ namespace game_framework
 		return (int)fYPos;
 	}
 
-	void CGamePlayer::SetIsOnland(bool state)
+	int CGamePlayer::getPowerLVL()
 	{
-		isOnland = state;
+		return powerLVL;
 	}
 
-	bool CGamePlayer::IsFalling()
+	void CGamePlayer::setPowerLVL(int powerLVL)
 	{
-		return isFalling;
+		if (powerLVL <= 2) 
+		{
+			if (this->powerLVL < powerLVL) 
+			{
+				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cMUSHROOMMEAT);
+				this->powerLVL = powerLVL;
+			}
+			else if (this->powerLVL > 0)
+			{
+				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cSHRINK);
+				this->powerLVL = 0;
+				//unKillAble = true;
+			}
+		}
+		else
+			Death(true);
+	}
+
+	void CGamePlayer::resetPowerLVL()
+	{
 	}
 
 	void CGamePlayer::Draw()
 	{
-		player_bmp.SetTopLeft((int)fXPos, (int)fYPos);
-		player_bmp.ShowBitmap();
+		sMario[getMarioSpriteID()]->getTexture()->SetTopLeft((int)fXPos, (int)fYPos);
+		sMario[getMarioSpriteID()]->getTexture()->ShowBitmap(!moveDirection);
+		//player_bmp.SetTopLeft((int)fXPos, (int)fYPos);
+		//player_bmp.ShowBitmap(!moveDirection);
 	}
 
 	void CGamePlayer::Update(CGameMap *map)
@@ -128,6 +177,8 @@ namespace game_framework
 
 				if (jumpDistance <= currentJumpDistance)
 					jumpState = 2;
+
+				setMarioSpriteID(3);
 			}
 			else 
 			{
@@ -168,7 +219,7 @@ namespace game_framework
 				//	}
 				//}
 				//else 
-				if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + 1, Height(), true) && !map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + 1, Width(), Height(), true)) 
+				if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + 1, GetHitBoxY(), true) && !map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + 1, GetHitBoxX(), GetHitBoxY(), true)) 
 				{
 
 					if (nextFallFrameID > 0)
@@ -184,7 +235,7 @@ namespace game_framework
 
 					jumpState = 2;
 
-					//setMarioSpriteID(5);
+					//setMarioSpriteID(3);
 				}
 				else if (jumpState == 2)
 					resetJump();
@@ -196,10 +247,9 @@ namespace game_framework
 	void CGamePlayer::updateXPos(int displacement, CGameMap *map)
 	{
 		checkCollisionBot(displacement, 0, map);
-		//checkCollisionCenter(displacement, 0, map);
 		if (displacement > 0) 
 		{
-			if (!map->checkCollisionRB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, Width(), Height(), true) && !map->checkCollisionRT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, Width(), true))
+			if (!map->checkCollisionRB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, GetHitBoxX(), GetHitBoxY(), true) && !map->checkCollisionRT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, GetHitBoxX(), true))
 			{
 				if (fXPos >= 215 && map->getMoveMap() && SIZE_X - map->getXPos() + displacement < map->getMapWidth() * BLOCK_WIDTH_HEIGHT)
 					map->moveMap(-displacement, 0);
@@ -214,7 +264,7 @@ namespace game_framework
 			}
 		}
 		else if (displacement < 0) {
-			if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, Height(), true) && !map->checkCollisionLT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, true))
+			if (!map->checkCollisionLB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, GetHitBoxY(), true) && !map->checkCollisionLT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, true))
 			{
 				if (fXPos - map->getXPos() + displacement >= 0 && fXPos >= 0)
 					fXPos += displacement;
@@ -234,8 +284,8 @@ namespace game_framework
 
 		if (iN > 0)
 		{
-			bLEFT = map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + iN, Height(), true);
-			bRIGHT = map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + iN, Width(), Height(), true);
+			bLEFT = map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + iN, GetHitBoxY(), true);
+			bRIGHT = map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + iN, GetHitBoxX(), GetHitBoxY(), true);
 
 			if (!bLEFT && !bRIGHT)
 				fYPos += iN;
@@ -250,7 +300,7 @@ namespace game_framework
 		else if (iN < 0)
 		{
 			bLEFT = map->checkCollisionLT((int)(fXPos - map->getXPos() + 1), (int)fYPos + iN, false);
-			bRIGHT = map->checkCollisionRT((int)(fXPos - map->getXPos() - 1), (int)fYPos + iN, Width(), false);
+			bRIGHT = map->checkCollisionRT((int)(fXPos - map->getXPos() - 1), (int)fYPos + iN, GetHitBoxX(), false);
 
 			/*if (map->checkCollisionWithPlatform((int)fXPos, (int)fYPos, 0, 0) >= 0 || map->checkCollisionWithPlatform((int)fXPos, (int)fYPos, Width(), 0) >= 0)
 			{
@@ -275,8 +325,8 @@ namespace game_framework
 								else
 									fYPos += iN;
 							}
-							else if ((int)(fXPos + Width() - map->getXPos()) % 32 <= 8)
-								updateXPos((int)-((int)(fXPos + Width() - map->getXPos()) % 32), map);
+							else if ((int)(fXPos + GetHitBoxX() - map->getXPos()) % 32 <= 8)
+								updateXPos((int)-((int)(fXPos + GetHitBoxX() - map->getXPos()) % 32), map);
 							else if (map->getBlock(map->getMapBlock(vRT->getX(), vRT->getY())->getBlockID())->IsUse())
 							{
 								if (map->blockUse(vRT->getX(), vRT->getY(), map->getMapBlock(vRT->getX(), vRT->getY())->getBlockID(), 0))
@@ -316,7 +366,7 @@ namespace game_framework
 					}
 					else
 					{
-						if ((int)(fXPos + Width() - map->getXPos()) % BLOCK_WIDTH_HEIGHT > BLOCK_WIDTH_HEIGHT - (int)(fXPos - map->getXPos()) % BLOCK_WIDTH_HEIGHT)
+						if ((int)(fXPos + GetHitBoxX() - map->getXPos()) % BLOCK_WIDTH_HEIGHT > BLOCK_WIDTH_HEIGHT - (int)(fXPos - map->getXPos()) % BLOCK_WIDTH_HEIGHT)
 						{
 							//if (fXPos - map->getXPos() / BLOCK_WIDTH_HEIGHT < map->getMapWidth())
 								Vector2* vRT = getBlockRT(fXPos - map->getXPos(), fYPos + iN, map);
@@ -359,7 +409,7 @@ namespace game_framework
 
 		if (/*!map->getInEvent() &&*/ fYPos > SIZE_Y)
 		{
-			map->playerDeath(false);
+			map->getPlayer()->Death(false);
 			fYPos = -80;
 		}
 	}
@@ -437,6 +487,28 @@ namespace game_framework
 		nextFallFrameID = 0;
 	}
 
+	void CGamePlayer::setMarioSpriteID(int iID)
+	{
+		this->iSpriteID = iID;
+	}
+
+	int CGamePlayer::getMarioSpriteID()
+	{
+		return iSpriteID;
+	}
+
+	void CGamePlayer::moveAnimation()
+	{
+		if (timeGetTime() - 65 + moveSpeed * 4 > iMoveAnimationTime) 
+		{
+			iMoveAnimationTime = timeGetTime();
+			if (iSpriteID >= 2) 
+				setMarioSpriteID(1);
+			else
+				++iSpriteID;
+		}
+	}
+
 	int CGamePlayer::getMoveSpeed()
 	{
 		return moveSpeed;
@@ -472,9 +544,39 @@ namespace game_framework
 		return jumpState;
 	}
 
+	CGameSprite * CGamePlayer::getMarioSprite()
+	{
+		return sMario[1 + 11 * powerLVL];
+	}
+
+	void CGamePlayer::Death(bool animation)
+	{
+		resetJump();
+		stopMove();
+		//resetPowerLVL();
+		if (animation)
+		{
+			SetY(fYPos - 4.0f);
+			CSpecialEffect::Delay(500);
+		}
+
+		CAudio::Instance()->Play(AUDIO_DEATH);
+		isPlayerDeath = true;
+	}
+
+	void CGamePlayer::setIsPlayerDeath(bool isPlayerDeath)
+	{
+		this->isPlayerDeath = isPlayerDeath;
+	}
+
+	bool CGamePlayer::IsPlayerDeath()
+	{
+		return isPlayerDeath;
+	}
+
 	void CGamePlayer::movePlayer(CGameMap *map)
 	{
-		if (bMove && !changeMoveDirection) 
+		if (bMove && !changeMoveDirection && powerLVL == 0)
 		{
 			if (moveSpeed > currentMaxMove)
 				--moveSpeed;
@@ -510,7 +612,19 @@ namespace game_framework
 				updateXPos(moveSpeed, map);
 			else
 				updateXPos(-moveSpeed, map);
+
+			if (!changeMoveDirection && jumpState == 0 && bMove) {
+				moveAnimation();
+			}
 		}
+		else if (jumpState == 0) 
+		{
+			setMarioSpriteID(1);
+			updateXPos(0, map);
+		}
+		else
+			updateXPos(0, map);
+
 	}
 
 	bool CGamePlayer::checkCollisionBot(int nX, int nY, CGameMap *map)
@@ -555,22 +669,22 @@ namespace game_framework
 
 	Vector2 * CGamePlayer::getBlockLB(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX + 1, (int)nY + Height());
+		return map->getBlockID((int)nX + 1, (int)nY + GetHitBoxY());
 	}
 
 	Vector2 * CGamePlayer::getBlockRB(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX + Width() - 1, (int)nY + Height());
+		return map->getBlockID((int)nX + GetHitBoxX() - 1, (int)nY + GetHitBoxY());
 	}
 
 	Vector2 * CGamePlayer::getBlockLC(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX - 1, (int)nY + Height() / 2);
+		return map->getBlockID((int)nX - 1, (int)nY + GetHitBoxY() / 2);
 	}
 
 	Vector2 * CGamePlayer::getBlockRC(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX + Width() + 1, (int)nY + Height() / 2);
+		return map->getBlockID((int)nX + GetHitBoxX() + 1, (int)nY + GetHitBoxY() / 2);
 	}
 
 	Vector2 * CGamePlayer::getBlockLT(float nX, float nY, CGameMap *map)
@@ -580,6 +694,6 @@ namespace game_framework
 
 	Vector2 * CGamePlayer::getBlockRT(float nX, float nY, CGameMap *map)
 	{
-		return map->getBlockID((int)nX + Width() - 1, (int)nY);
+		return map->getBlockID((int)nX + GetHitBoxX() - 1, (int)nY);
 	}
 }

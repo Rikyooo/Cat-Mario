@@ -45,7 +45,7 @@ namespace game_framework
 
 	void CGameCoin::Draw(CGameMap* map)
 	{
-		map->getBlock(22)->OnDraw(iXPos + (int)map->getXPos(), iYPos);
+		map->getBlock(22)->OnDraw(iXPos + (int)map->getXPos(), iYPos, false);
 	}
 
 	int CGameCoin::getXPos()

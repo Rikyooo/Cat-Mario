@@ -33,18 +33,6 @@
 #define IDB_MUSHROOM_GOOD               198
 #define IDB_FLAG                        200
 #define IDB_SAVE_POINT                  201
-#define IDB_CONTINUE                    202
-#define IDB_LOADING                     204
-#define IDB_0                           206
-#define IDB_1                           207
-#define IDB_2                           208
-#define IDB_3                           209
-#define IDB_4                           210
-#define IDB_5                           211
-#define IDB_6                           212
-#define IDB_7                           213
-#define IDB_8                           214
-#define IDB_9                           215
 #define IDB_MINUS                       216
 #define IDI_ICON1                       222
 #define IDI_ICON2                       223
@@ -70,6 +58,7 @@
 #define IDB_FLOWER                      242
 #define IDB_STAR_1                      243
 #define IDB_ENEMY_TURTLE_1              244
+#define IDB_PLAYER_5                    245
 #define IDB_ENEMY_TURTLE_2              246
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
@@ -83,7 +72,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        244
+#define _APS_NEXT_RESOURCE_VALUE        246
 #define _APS_NEXT_COMMAND_VALUE         32776
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101

@@ -154,7 +154,7 @@ public:
 	static bool  IsFullScreen();			// 回答是否为全荧幕模式/视窗模式
 private:
 	CDDraw();								// private constructor
-	static void  BltBitmapToBack(unsigned SurfaceID, int x, int y);
+	static void  BltBitmapToBack(unsigned SurfaceID, int x, int y, bool isHorizontalFlip);
 	static void  BltBitmapToBack(unsigned SurfaceID, int x, int y, double factor);
 	static void  BltBitmapToBitmap(unsigned SourceID, unsigned TargetID, int x, int y);
 	static void	 CheckDDFail(char *s);
@@ -201,7 +201,7 @@ public:
 	void  LoadBitmap(int,COLORREF=CLR_INVALID);		// 载入图，指定图的编号(resource)及透明色
 	void  LoadBitmap(char *,COLORREF=CLR_INVALID);	// 载入图，指定图的档名及透明色
 	void  SetTopLeft(int,int);			// 将图的左上角座标移至 (x,y)
-	void  ShowBitmap();					// 将图贴到荧幕
+	void  ShowBitmap(bool isHorizontalFlip);  // 将图贴到荧幕
 	void  ShowBitmap(double factor);	// 将图贴到荧幕 factor < 1时缩小，>1时放大。注意：需要VGA卡硬体的支援，否则会很慢
 	void  ShowBitmap(CMovingBitmap &);	// 将图贴到到另一张图上 (仅供特殊用途)
 	int   Top();						// 取得图形的左上角的 y 座标
@@ -251,22 +251,22 @@ private:
 // 每个Public Interface的用法都要懂，Implementation可以不懂
 /////////////////////////////////////////////////////////////////////////////
 
-class CInteger {
-public:
-	CInteger(int=5);			// default 5 digits
-	void Add(int n);			// 增加整数值
-	int  GetInteger();			// 回传整数值
-	void LoadBitmap();			// 载入0..9及负号之图形
-	void SetInteger(int);		// 设定整数值
-	void SetTopLeft(int,int);	// 将动画的左上角座标移至 (x,y)
-	void ShowBitmap();			// 将动画贴到荧幕
-private:
-	const int NUMDIGITS;			// 共显示NUMDIGITS个位数
-	static CMovingBitmap digit[11]; // 储存0..9及负号之图形(bitmap)
-	int x, y;						// 显示的座标
-	int n;							// 整数值
-	bool isBmpLoaded;				// 是否已经载入图形
-};
+//class CInteger {
+//public:
+//	CInteger(int=5);			// default 5 digits
+//	void Add(int n);			// 增加整数值
+//	int  GetInteger();			// 回传整数值
+//	void LoadBitmap();			// 载入0..9及负号之图形
+//	void SetInteger(int);		// 设定整数值
+//	void SetTopLeft(int,int);	// 将动画的左上角座标移至 (x,y)
+//	void ShowBitmap();			// 将动画贴到荧幕
+//private:
+//	const int NUMDIGITS;			// 共显示NUMDIGITS个位数
+//	static CMovingBitmap digit[11]; // 储存0..9及负号之图形(bitmap)
+//	int x, y;						// 显示的座标
+//	int n;							// 整数值
+//	bool isBmpLoaded;				// 是否已经载入图形
+//};
 
 /////////////////////////////////////////////////////////////////////////////
 // 宣告尚未定义的class

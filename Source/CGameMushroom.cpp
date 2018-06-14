@@ -77,9 +77,9 @@ namespace game_framework
 	{
 		if (minionState >= 0) 
 		{
-			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos);
+			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, false);
 			if (inSpawnState) 
-				map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 10 : 56)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos + (32 - inSpawnY) - map->getMapBlock(iX, iY)->getYPos());
+				map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 10 : 56)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos + (32 - inSpawnY) - map->getMapBlock(iX, iY)->getYPos(), false);
 		}
 	}
 

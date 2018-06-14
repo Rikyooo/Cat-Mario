@@ -84,10 +84,7 @@ namespace game_framework
 	{
 		if (minionState != -2) 
 		{
-			if (moveDirection)
-				map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos);
-			else
-				map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos);
+			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, !moveDirection);
 		}
 		/*else {
 			iIMG->DrawVert(rR, (int)fXPos + (int)CCore::getMap()->getXPos(), (int)fYPos + 2);
@@ -231,7 +228,7 @@ namespace game_framework
 				map->getPlayer()->resetJump();
 				map->getPlayer()->startJump(1);
 				map->getPlayer()->SetY((float)map->getPlayer()->GetY() - 4);
-				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cSTOMP);
+				CAudio::Instance()->Play(AUDIO_HUMI);
 			}
 			else if (minionState == 1) 
 			{
@@ -240,7 +237,7 @@ namespace game_framework
 				map->getPlayer()->resetJump();
 				map->getPlayer()->startJump(1);
 				map->getPlayer()->SetY((float)map->getPlayer()->GetY() - 4);
-				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cSTOMP);
+				CAudio::Instance()->Play(AUDIO_HUMI);
 			}
 			else 
 			{
@@ -249,7 +246,7 @@ namespace game_framework
 					moveSpeed = 0;
 				}
 				else {
-					if ((fXPos + iHitBoxX) / 2 < (map->getPlayer()->GetX() - map->getXPos() + map->getPlayer()->Width()) / 2) 
+					if ((fXPos + iHitBoxX) / 2 < (map->getPlayer()->GetX() - map->getXPos() + map->getPlayer()->GetHitBoxX()) / 2) 
 					{
 						moveDirection = true;
 					}
@@ -263,7 +260,7 @@ namespace game_framework
 				map->getPlayer()->SetY((float)map->getPlayer()->GetY() - 4);
 				map->getPlayer()->resetJump();
 				map->getPlayer()->startJump(1);
-				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cSTOMP);
+				CAudio::Instance()->Play(AUDIO_HUMI);
 			}
 		}
 		else {
@@ -271,21 +268,20 @@ namespace game_framework
 			{
 				if (moveSpeed == 0) 
 				{
-					//moveDirection = !CCore::getMap()->getPlayer()->getMoveDirection();
-					moveDirection = (fXPos + iHitBoxX / 2 < map->getPlayer()->GetX() - map->getXPos() + map->getPlayer()->Width() / 2);
+					moveDirection = (fXPos + iHitBoxX / 2 < map->getPlayer()->GetX() - map->getXPos() + map->getPlayer()->GetHitBoxX() / 2);
 					if (moveDirection) fXPos -= map->getPlayer()->getMoveSpeed() + 1;
 					else fXPos += map->getPlayer()->getMoveSpeed() + 1;
 					moveSpeed = 6;
-					//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cSTOMP);
+					CAudio::Instance()->Play(AUDIO_HUMI);
 				}
 				else 
 				{
-					map->playerDeath(true);
+					map->getPlayer()->Death(true);
 				}
 			}
 			else 
 			{
-				map->playerDeath(true);
+				map->getPlayer()->Death(true);
 			}
 		}
 	}

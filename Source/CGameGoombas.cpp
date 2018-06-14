@@ -38,7 +38,7 @@ namespace game_framework
 	void CGameGoombas::Draw(CGameMap * map, int iBlockID)
 	{
 		if (minionState != -2)
-			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos);
+			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, false);
 		/*else {
 			iIMG->DrawVert(rR, (int)fXPos + (int)map->getXPos(), (int)fYPos + 2);
 		}*/
@@ -60,13 +60,12 @@ namespace game_framework
 				deadTime = timeGetTime();
 				map->getPlayer()->resetJump();
 				map->getPlayer()->startJump(1);
-				//points(100);
-				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cSTOMP);
+				CAudio::Instance()->Play(AUDIO_HUMI);
 			}
 		}
 		else 
 		{
-			map->playerDeath(true);
+			map->getPlayer()->Death(true);
 		}
 	}
 

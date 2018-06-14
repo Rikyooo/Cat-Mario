@@ -217,9 +217,6 @@
     <Image Include="RES\player\player_4.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="RES\player\player_5.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="RES\enemy\enemy_normal.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -248,39 +245,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\background\mainfram.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp0.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp2.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp3.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp4.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp5.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp6.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp7.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp8.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp9.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="RES\bmp10.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\title.bmp">
@@ -349,13 +313,13 @@
     <Image Include="RES\item\star_1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\background\bitmap3.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="RES\enemy\enemy_turtle_1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\enemy\enemy_turtle_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\player\player_5.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -61,10 +61,10 @@ namespace game_framework
 
 	void CGameBlockDebris::Draw(CGameMap * map)
 	{
-		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 23 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionL->getX() + (int)map->getXPos(), vPositionL->getY());
-		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 24 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionR->getX() + (int)map->getXPos(), vPositionR->getY());
-		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 23 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionL2->getX() + (int)map->getXPos(), vPositionL2->getY());
-		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 24 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionR2->getX() + (int)map->getXPos(), vPositionR2->getY());
+		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 23 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionL->getX() + (int)map->getXPos(), vPositionL->getY(), bRotate);
+		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 23 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionR->getX() + (int)map->getXPos(), vPositionR->getY(), bRotate);
+		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 23 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionL2->getX() + (int)map->getXPos(), vPositionL2->getY(), bRotate);
+		map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 23 : map->getLevelType() == 1 ? 65 : 66)->OnDraw(vPositionR2->getX() + (int)map->getXPos(), vPositionR2->getY(), bRotate);
 	}
 
 	int CGameBlockDebris::getDebrisState()

@@ -49,7 +49,7 @@ void CGameMap::LoadBitmap()
 	for (int i = 0; i < iMinionSize; i++)
 		vMinion[i]->LoadBitmap();
 
-    oPlayer->LoadBitmap();
+    //oPlayer->LoadBitmap();
 }
 
 void CGameMap::Update()
@@ -258,18 +258,17 @@ void CGameMap::UpdateMinionsCollisions()
     //if (!inEvent && !oPlayer->getInLevelAnimation())
     // ----- COLLISION WITH PLAYER
     for (int i = getListID(-(int)fXPos + oPlayer->GetX()) - (getListID(-(int)fXPos + oPlayer->GetX()) > 0 ? 1 : 0), iSize = i + 2; i < iSize; i++) 
-	//for (int i = getListID(-(int)fXPos), iSize = getListID(-(int)fXPos + SIZE_X); i < iSize; i++)
 	{
 		for (unsigned int j = 0, jSize = lMinion[i].size(); j < jSize; j++)
 		{
 			if (lMinion[i][j]->getDeadTime() < 0)
 			{
-				if ((oPlayer->GetX() - fXPos >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX()) || (oPlayer->GetX() - fXPos + oPlayer->Width() >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos + oPlayer->Width() <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX())) 
+				if ((oPlayer->GetX() - fXPos >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX()) || (oPlayer->GetX() - fXPos + oPlayer->GetHitBoxX() >= lMinion[i][j]->getXPos() && oPlayer->GetX() - fXPos + oPlayer->GetHitBoxX() <= lMinion[i][j]->getXPos() + lMinion[i][j]->getHitBoxX())) 
 				{
-					if (lMinion[i][j]->getYPos() - 2 <= oPlayer->GetY() + oPlayer->Height() && lMinion[i][j]->getYPos() + 16 >= oPlayer->GetY() + oPlayer->Height()) {
+					if (lMinion[i][j]->getYPos() - 2 <= oPlayer->GetY() + oPlayer->GetHitBoxY() && lMinion[i][j]->getYPos() + 16 >= oPlayer->GetY() + oPlayer->GetHitBoxY()) {
 						lMinion[i][j]->collisionWithPlayer(true, this);
 					}
-					else if ((lMinion[i][j]->getYPos() <= oPlayer->GetY() + oPlayer->Height() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY() + oPlayer->Height()) || (lMinion[i][j]->getYPos() - (oPlayer->Height() - lMinion[i][j]->getHitBoxY()) <= oPlayer->GetY() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY())) {
+					else if ((lMinion[i][j]->getYPos() <= oPlayer->GetY() + oPlayer->GetHitBoxY() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY() + oPlayer->GetHitBoxY()) || (lMinion[i][j]->getYPos() - (oPlayer->GetHitBoxY() - lMinion[i][j]->getHitBoxY()) <= oPlayer->GetY() && lMinion[i][j]->getYPos() + lMinion[i][j]->getHitBoxY() >= oPlayer->GetY())) {
 						lMinion[i][j]->collisionWithPlayer(false, this);
 					}
 				}
@@ -334,7 +333,7 @@ void CGameMap::DrawMap()
             if (lMap[i][j]->getBlockID() != 0)
             {
                 //TRACE("i:%d j:%d ID:%d\n", i, j, lMap[i][j]->getBlockID());
-                vBlock[lMap[i][j]->getBlockID()]->OnDraw(32 * i + (int)fXPos, SIZE_Y - BLOCK_WIDTH_HEIGHT * (j + 1) - lMap[i][j]->updateYPos());
+                vBlock[lMap[i][j]->getBlockID()]->OnDraw(32 * i + (int)fXPos, SIZE_Y - BLOCK_WIDTH_HEIGHT * (j + 1) - lMap[i][j]->updateYPos(), false);
             }
 }
 
@@ -647,67 +646,6 @@ void CGameMap::checkCollisionOnTopOfTheBlock(int nX, int nY)
                     lMinion[i][j]->setMinionState(-2);
                 }
 }
-
-void CGameMap::playerDeath(bool animation)
-{
-		oPlayer->resetJump();
-		oPlayer->stopMove();
-
-		//oPlayer->resetPowerLVL();
-
-		if (animation)
-		{
-			oPlayer->SetY(oPlayer->GetY() + 4.0f);
-			CSpecialEffect::Delay(500);
-		}
-
-		CAudio::Instance()->Play(AUDIO_DEATH);
-		isPlayerDeath = true;
-}
-
-//void CGameMap::addKoppa(int iX, int iY, int minionState, bool moveDirection)
-//{
-//	int tempBlock;
-//
-//	switch (minionState) {
-//	case 0: case 3:
-//		tempBlock = iLevelType == 0 || iLevelType == 4 ? 7 : iLevelType == 1 ? 14 : 17;
-//		break;
-//	case 1:
-//		tempBlock = iLevelType == 0 || iLevelType == 4 ? 4 : iLevelType == 1 ? 12 : 15;
-//		break;
-//	case 2:
-//		tempBlock = iLevelType == 0 || iLevelType == 4 ? 5 : iLevelType == 1 ? 13 : 16;
-//		break;
-//	}
-//
-//	lMinion[getListID(iX)].push_back(new Koppa(iX, iY, minionState, moveDirection, tempBlock));
-//}
-
-
-//void CGameMap::checkCollisionOnTopOfTheBlock(int nX, int nY)
-//{
-//	switch (lMap[nX][nY + 1]->getBlockID()) {
-//	case 29: case 71: case 72: case 73:// COIN
-//		lMap[nX][nY + 1]->setBlockID(0);
-//		/*lCoin.push_back(new Coin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
-//		CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
-//		oPlayer->setCoins(oPlayer->getCoins() + 1);*/
-//		return;
-//		break;
-//	}
-//
-//	for (int i = (nX - nX % 5) / 5, iEnd = i + 3; i < iEnd && i < iMinionListSize; i++) {
-//		for (unsigned int j = 0; j < lMinion[i].size(); j++) {
-//			if (!lMinion[i][j]->collisionOnlyWithPlayer && lMinion[i][j]->getMinionState() >= 0 && ((lMinion[i][j]->getXPos() >= nX * 32 && lMinion[i][j]->getXPos() <= nX * 32 + 32) || (lMinion[i][j]->getXPos() + lMinion[i][j]->iHitBoxX >= nX * 32 && lMinion[i][j]->getXPos() + lMinion[i][j]->iHitBoxX <= nX * 32 + 32))) {
-//				if (lMinion[i][j]->getYPos() + lMinion[i][j]->iHitBoxY >= SIZE_Y - 24 - nY * 32 && lMinion[i][j]->getYPos() + lMinion[i][j]->iHitBoxY <= SIZE_Y - nY * 32 + 16) {
-//					lMinion[i][j]->moveDirection = !lMinion[i][j]->moveDirection;
-//					lMinion[i][j]->setMinionState(-2);
-//				}
-//			}
-//		}
-//	}
-//}
 
 void CGameMap::loadLVL_1_1()
 {
@@ -1097,16 +1035,6 @@ void CGameMap::setMoveMap(bool bMoveMap)
     this->bMoveMap = bMoveMap;
 }
 
-void CGameMap::setIsPlayerDeath(bool isPlayerDeath)
-{
-	this->isPlayerDeath = isPlayerDeath;
-}
-
-bool CGameMap::IsPlayerDeath()
-{
-	return isPlayerDeath;
-}
-
 int CGameMap::getListID(int nX)
 {
     return (int)(nX / 160);
@@ -1175,7 +1103,7 @@ void CGameMap::loadGameData()
     //pipe
     //debris
 	vBlock.push_back(new CGameBlock(23, IDB_BLOCK_DEBRIS_LEFT, false, false, false, true));
-	vBlock.push_back(new CGameBlock(24, IDB_BLOCK_DEBRIS_RIGHT, false, false, false, true));
+	//vBlock.push_back(new CGameBlock(24, IDB_BLOCK_DEBRIS_RIGHT, false, false, false, true));
     // --------------- Enemy ---------------
     //enemy_normal
     vMinion.push_back(new CGameBlock(0, IDB_ENEMY_NORMAL, true, false, true, true));
@@ -1200,6 +1128,7 @@ void CGameMap::loadGameData()
 	CAudio::Instance()->Load(AUDIO_BLOCK_USE, "sounds\\SE\\blockkinoko.wav");
 	CAudio::Instance()->Load(AUDIO_JUMP, "sounds\\SE\\jump.wav");
 	CAudio::Instance()->Load(AUDIO_DEATH, "sounds\\SE\\death.wav");
+	CAudio::Instance()->Load(AUDIO_HUMI, "sounds\\SE\\humi.wav");
 }
 
 void CGameMap::createMap()

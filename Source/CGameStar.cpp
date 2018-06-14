@@ -101,9 +101,9 @@ namespace game_framework
 
 	void CGameStar::Draw(CGameMap * map, int iBlockID)
 	{
-		map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos);
+		map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, false);
 		if (inSpawnState)
-			map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 10 : 56)->OnDraw((int)fXPos + (int)map->getXPos() - 2, (int)fYPos + (32 - inSpawnY) - map->getMapBlock(iX, iY)->getYPos() - 2);
+			map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 10 : 56)->OnDraw((int)fXPos + (int)map->getXPos() - 2, (int)fYPos + (32 - inSpawnY) - map->getMapBlock(iX, iY)->getYPos() - 2, false);
 	}
 
 	void CGameStar::collisionWithPlayer(bool TOP, CGameMap * map)

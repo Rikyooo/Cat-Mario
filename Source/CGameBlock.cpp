@@ -28,10 +28,10 @@ namespace game_framework
 		bmp.LoadBitmap(bmpID, RGB(0,0,255));
 	}
 
-	void CGameBlock::OnDraw(int x, int y)
+	void CGameBlock::OnDraw(int x, int y, bool isHorizontalFlip)
 	{
 		bmp.SetTopLeft(x, y);
-		bmp.ShowBitmap();
+		bmp.ShowBitmap(isHorizontalFlip);
 	}
 
 	/* ******************************************** */

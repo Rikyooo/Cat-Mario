@@ -10,7 +10,7 @@ namespace game_framework
 		~CGameBlock(void);
 
 		void LoadBitmap();
-		void OnDraw(int, int);
+		void OnDraw(int x, int y, bool isHorizontalFlip);
 
 		int getBlockID();
 		void setBlockID(int iID);
