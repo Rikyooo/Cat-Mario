@@ -4,8 +4,6 @@
 
 namespace game_framework
 {
-class CGameMap;
-
 class CGameStar : public CGameMinion
 {
     public:

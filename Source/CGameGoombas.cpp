@@ -17,7 +17,7 @@ namespace game_framework
 		this->iBlockID = iBlockID;
 		this->moveDirection = moveDirection;
 		this->moveSpeed = 1;
-		this->iHitBoxX = 31;
+		this->iHitBoxX = 30;
 		this->iHitBoxY = 27;
 	}
 
@@ -38,7 +38,7 @@ namespace game_framework
 	void CGameGoombas::Draw(CGameMap * map, int iBlockID)
 	{
 		if (minionState != -2)
-			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, false);
+			map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, !moveDirection);
 		/*else {
 			iIMG->DrawVert(rR, (int)fXPos + (int)map->getXPos(), (int)fYPos + 2);
 		}*/

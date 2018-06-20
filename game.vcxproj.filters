@@ -79,6 +79,12 @@
     <ClCompile Include="Source\CGameSprite.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CGamePipe.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGameFlag.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\audio.h">
@@ -145,6 +151,12 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\CGameSprite.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGamePipe.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CGameFlag.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -320,6 +332,57 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="RES\player\player_5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\pipe_left_bot.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\pipe_left_top.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\pipe_right_bot.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\pipe_right_top.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\item\mushroom_poison.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\end_dot.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\end_flag.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\end_l.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_bottom_center.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_bottom_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_bottom_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_center_center.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_center_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_center_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_top_center.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_top_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\background\castle_top_right.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

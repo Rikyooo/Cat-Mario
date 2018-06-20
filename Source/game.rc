@@ -62,14 +62,6 @@ END
 // Bitmap
 //
 
-IDB_TREE_1              BITMAP                  "..\\RES\\background\\tree 1.bmp"
-
-IDB_TREE_2              BITMAP                  "..\\RES\\background\\tree 2.bmp"
-
-IDB_CASTLE              BITMAP                  "..\\RES\\background\\castle.bmp"
-
-IDB_FIRE                BITMAP                  "..\\RES\\background\\fire.bmp"
-
 IDB_BLOCK_FLOOR_1_SKY   BITMAP                  "..\\RES\\block\\block_floor_1_sky.bmp"
 
 IDB_BLOCK_FLOOR_2_GROUND BITMAP                  "..\\RES\\block\\block_floor_2_ground.bmp"
@@ -97,8 +89,6 @@ IDB_ENEMY_RASING        BITMAP                  "..\\RES\\enemy\\enemy_rasing.bm
 IDB_COIN                BITMAP                  "..\\RES\\item\\coin.bmp"
 
 IDB_MUSHROOM_GOOD       BITMAP                  "..\\RES\\item\\mushroom_good.bmp"
-
-IDB_FLAG                BITMAP                  "..\\RES\\props\\flag.bmp"
 
 IDB_SAVE_POINT          BITMAP                  "..\\RES\\background\\save_point.bmp"
 
@@ -134,9 +124,7 @@ IDB_CLOUD_CENTER_2      BITMAP                  "..\\RES\\background\\cloud _2_c
 
 IDB_CLOUD_BOTTOM        BITMAP                  "..\\RES\\background\\cloud _1_bottom.bmp"
 
-IDB_BLOCK_DEBRIS_LEFT   BITMAP                  "..\\RES\\block\\block_debris_left.bmp"
-
-IDB_BLOCK_DEBRIS_RIGHT  BITMAP                  "..\\RES\\block\\block_debris_right.bmp"
+IDB_BLOCK_DEBRIS        BITMAP                  "..\\RES\\block\\block_debris_left.bmp"
 
 IDB_FLOWER              BITMAP                  "..\\RES\\item\\flower.bmp"
 
@@ -146,7 +134,41 @@ IDB_ENEMY_TURTLE_1      BITMAP                  "..\\RES\\enemy\\enemy_turtle_1.
 
 IDB_ENEMY_TURTLE_2      BITMAP                  "..\\RES\\enemy\\enemy_turtle_2.bmp"
 
-IDB_PLAYER_5            BITMAP                  "D:\\TAIPEI TECH\\2018_Spring\\oop\\new\\SyobonAction\\RES\\player\\player_5.bmp"
+IDB_PLAYER_5            BITMAP                  "..\\RES\\player\\player_5.bmp"
+
+IDB_PIPE_LEFT_BOT       BITMAP                  "..\\RES\\background\\pipe_left_bot.bmp"
+
+IDB_PIPE_LEFT_TOP       BITMAP                  "..\\RES\\background\\pipe_left_top.bmp"
+
+IDB_PIPE_RIGHT_BOT      BITMAP                  "..\\RES\\background\\pipe_right_bot.bmp"
+
+IDB_PIPE_RIGHT_TOP      BITMAP                  "..\\RES\\background\\pipe_right_top.bmp"
+
+IDB_MUSHROOM_POISON     BITMAP                  "..\\RES\\item\\mushroom_poison.bmp"
+
+IDB_END_DOT             BITMAP                  "..\\RES\\background\\end_dot.bmp"
+
+IDB_END_FLAG            BITMAP                  "..\\RES\\background\\end_flag.bmp"
+
+IDB_END                 BITMAP                  "..\\RES\\background\\end_l.bmp"
+
+IDB_CASTLE_BC           BITMAP                  "..\\RES\\background\\castle_bottom_center.bmp"
+
+IDB_CASTLE_BL           BITMAP                  "..\\RES\\background\\castle_bottom_left.bmp"
+
+IDB_CASTLE_BR           BITMAP                  "..\\RES\\background\\castle_bottom_right.bmp"
+
+IDB_CASTLE_CC           BITMAP                  "..\\RES\\background\\castle_center_center.bmp"
+
+IDB_CASTLE_CL           BITMAP                  "..\\RES\\background\\castle_center_left.bmp"
+
+IDB_CASTLE_CR           BITMAP                  "..\\RES\\background\\castle_center_right.bmp"
+
+IDB_CASTLE_TC           BITMAP                  "..\\RES\\background\\castle_top_center.bmp"
+
+IDB_CASTLE_TL           BITMAP                  "..\\RES\\background\\castle_top_left.bmp"
+
+IDB_CASTLE_TR           BITMAP                  "..\\RES\\background\\castle_top_right.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -184,28 +206,6 @@ IDR_MAINFRAME           BITMAP                  "..\\res\\background\\mainfram.b
 
 IDR_MAINFRAME MENU
 BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&New",                        ID_FILE_NEW
-        MENUITEM "Pause\tCtrl+Q",               ID_FILE_PAUSE
-        MENUITEM "&Open...",                    ID_FILE_OPEN
-        MENUITEM "&Save",                       ID_FILE_SAVE
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM SEPARATOR
-        MENUITEM "&Print...",                   ID_FILE_PRINT
-        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
-        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Fullscreen\tCtrl+F",         ID_TOGGLE_FULLSCREEN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-    END
     POPUP "&Help"
     BEGIN
         MENUITEM "&About game...",              ID_APP_ABOUT
@@ -236,13 +236,11 @@ CAPTION "About game"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Game Framework Version 4.8",IDC_STATIC,39,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2002-2012",IDC_STATIC,39,23,119,8
-    DEFPUSHBUTTON   "OK",IDOK,172,7,39,14,WS_GROUP
-    LTEXT           "Liense: GPL",IDC_STATIC,39,35,119,8
-    PUSHBUTTON      "ReadMe",IDC_README,172,24,39,13,WS_GROUP
-    LTEXT           "Author: Woei-Kae Chen, CSIE Department, NTUT",IDC_STATIC,39,47,159,8
-    LTEXT           "http://www.ntut.edu.tw/~wkchen/game",IDC_STATIC,39,60,159,8
+    LTEXT           "Syobon Action Version 0.1",IDC_STATIC,39,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2018",IDC_STATIC,39,23,119,8
+    DEFPUSHBUTTON   "OK",IDOK,172,13,39,14,WS_GROUP
+    LTEXT           "Liense: Anonymous",IDC_STATIC,39,35,119,8
+    LTEXT           "Author: Rikyo Fung, CSIE, NTUT",IDC_STATIC,39,47,159,8
 END
 
 
@@ -268,12 +266,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "game MFC Application"
+            VALUE "CompanyName", "Anonymous."
+            VALUE "FileDescription", "a little mario-like game"
             VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "game"
-            VALUE "LegalCopyright", "Copyright (C) 1999"
-            VALUE "OriginalFilename", "game.EXE"
-            VALUE "ProductName", "game Application"
+            VALUE "InternalName", "Syobon Action"
+            VALUE "LegalCopyright", "Copyright (C) 2018"
+            VALUE "OriginalFilename", "SyobonAction.EXE"
+            VALUE "ProductName", "Syobon Action"
             VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END
@@ -315,6 +314,17 @@ BEGIN
     SEPARATOR
     BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 

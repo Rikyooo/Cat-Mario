@@ -140,6 +140,8 @@ namespace game_framework
 
 	void CGamePlayer::resetPowerLVL()
 	{
+		this->powerLVL = 0;
+		this->iSpriteID = 1;
 	}
 
 	void CGamePlayer::Draw()
@@ -152,6 +154,7 @@ namespace game_framework
 
 	void CGamePlayer::Update(CGameMap *map)
 	{
+		destroyBlock(map);
 		playerPhysics(map);
 		movePlayer(map);
 	}
@@ -247,6 +250,7 @@ namespace game_framework
 	void CGamePlayer::updateXPos(int displacement, CGameMap *map)
 	{
 		checkCollisionBot(displacement, 0, map);
+		checkCollisionCenter(displacement, 0, map);
 		if (displacement > 0) 
 		{
 			if (!map->checkCollisionRB((int)(fXPos - map->getXPos() + displacement), (int)fYPos - 1, GetHitBoxX(), GetHitBoxY(), true) && !map->checkCollisionRT((int)(fXPos - map->getXPos() + displacement), (int)fYPos + 1, GetHitBoxX(), true))
@@ -292,9 +296,9 @@ namespace game_framework
 			else
 			{
 				if (jumpState == 2)
-					jumpState = 0;
+						jumpState = 0;
 
-				updateYPos(iN - 1, map);
+				updateYPos(iN - 1, map);	
 			}
 		}
 		else if (iN < 0)
@@ -414,6 +418,37 @@ namespace game_framework
 		}
 	}
 
+	void CGamePlayer::destroyBlock(CGameMap* map)
+	{
+		if (powerLVL == 1)
+		{
+			bool bLEFT = map->checkCollisionLB((int)(fXPos - map->getXPos() + 1), (int)fYPos + 5, GetHitBoxY(), true);
+			bool bRIGHT = map->checkCollisionRB((int)(fXPos - map->getXPos() - 1), (int)fYPos + 5, GetHitBoxX(), GetHitBoxY(), true);
+			Vector2* block_index;
+
+			if (bLEFT && !bRIGHT)
+			{
+				block_index = map->getBlockID((int)(fXPos - map->getXPos() + 1), (int)fYPos + 5 + GetHitBoxY());
+				map->getMapBlock(block_index->getX(), block_index->getY())->setBlockID(0);
+			}
+			else if (!bLEFT && bRIGHT)
+			{
+				block_index = map->getBlockID((int)(fXPos - map->getXPos() - 1) + GetHitBoxX(), (int)fYPos + 5 + GetHitBoxY());
+				map->getMapBlock(block_index->getX(), block_index->getY())->setBlockID(0);
+			}
+			else
+			{
+				block_index = map->getBlockID((int)(fXPos - map->getXPos() - 1) + GetHitBoxX(), (int)fYPos + 5 + GetHitBoxY());
+				for (int i = map->getBlockID((int)(fXPos - map->getXPos() + 1), (int)fYPos + 1 + GetHitBoxY())->getX(); i <= block_index->getX(); i++)
+				{
+					map->getMapBlock(i, block_index->getY())->setBlockID(0);
+				}
+			}
+
+			delete block_index;
+		}
+	}
+
 	void CGamePlayer::startMove()
 	{
 		moveSpeed = 1;
@@ -494,7 +529,10 @@ namespace game_framework
 
 	int CGamePlayer::getMarioSpriteID()
 	{
-		return iSpriteID;
+		if (powerLVL == 1)
+			return 4;
+		else
+			return iSpriteID;
 	}
 
 	void CGamePlayer::moveAnimation()
@@ -553,7 +591,7 @@ namespace game_framework
 	{
 		resetJump();
 		stopMove();
-		//resetPowerLVL();
+		resetPowerLVL();
 		if (animation)
 		{
 			SetY(fYPos - 4.0f);
@@ -576,7 +614,7 @@ namespace game_framework
 
 	void CGamePlayer::movePlayer(CGameMap *map)
 	{
-		if (bMove && !changeMoveDirection && powerLVL == 0)
+		if (bMove && !changeMoveDirection)
 		{
 			if (moveSpeed > currentMaxMove)
 				--moveSpeed;
@@ -636,15 +674,12 @@ namespace game_framework
 
 		delete vLT;
 
-		if (fXPos - map->getXPos() + nX / BLOCK_WIDTH_HEIGHT < map->getMapWidth())
-		{
-			vLT = getBlockRB(fXPos - map->getXPos() + nX, fYPos + nY, map);
+		vLT = getBlockRB(fXPos - map->getXPos() + nX, fYPos + nY, map);
 
-			if (map->getBlock(map->getMapBlock(vLT->getX(), vLT->getY())->getBlockID())->IsUse())
-				map->blockUse(vLT->getX(), vLT->getY(), map->getMapBlock(vLT->getX(), vLT->getY())->getBlockID(), 1);
-
-			delete vLT;
-		}
+		if (map->getBlock(map->getMapBlock(vLT->getX(), vLT->getY())->getBlockID())->IsUse())
+			map->blockUse(vLT->getX(), vLT->getY(), map->getMapBlock(vLT->getX(), vLT->getY())->getBlockID(), 1);
+		
+		delete vLT;
 		return true;
 	}
 

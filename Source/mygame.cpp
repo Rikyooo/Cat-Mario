@@ -13,22 +13,24 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 	CGameStateInit::CGameStateInit(CGame* g) : CGameState(g)
 	{
+		_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);
+		//_CrtSetBreakAlloc(5193);
 	}
 
 	void CGameStateInit::OnInit()
 	{
 		CDDraw::BltBackColor(DEFAULT_BG_COLOR);		// 将 Back Plain 涂上预设的颜色
 		title_bmp.LoadBitmap(IDB_TITLE);
-		block_floor_1_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_1_GROUND);
-		block_floor_2_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_2_GROUND);
+		block_floor_1_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_1_GROUND, RGB(0, 0, 255));
+		block_floor_2_ground_bmp.LoadBitmap(IDB_BLOCK_FLOOR_2_GROUND, RGB(0, 0, 255));
 		player_bmp.LoadBitmap(IDB_PLAYER_1, RGB(0, 0, 255));
-		grass_left_bmp.LoadBitmap(IDB_GRASS_LEFT);
-		grass_right_bmp.LoadBitmap(IDB_GRASS_RIGHT);
-		bush_top_bmp.LoadBitmap(IDB_BUSH_TOP);
-		bush_center_1_bmp.LoadBitmap(IDB_BUSH_CENTER_1);
-		bush_center_2_bmp.LoadBitmap(IDB_BUSH_CENTER_2);
-		bush_left_bmp.LoadBitmap(IDB_BUSH_LEFT);
-		bush_right_bmp.LoadBitmap(IDB_BUSH_RIGHT);
+		grass_left_bmp.LoadBitmap(IDB_GRASS_LEFT, RGB(0, 0, 255));
+		grass_right_bmp.LoadBitmap(IDB_GRASS_RIGHT, RGB(0, 0, 255));
+		bush_top_bmp.LoadBitmap(IDB_BUSH_TOP, RGB(0, 0, 255));
+		bush_center_1_bmp.LoadBitmap(IDB_BUSH_CENTER_1, RGB(0, 0, 255));
+		bush_center_2_bmp.LoadBitmap(IDB_BUSH_CENTER_2, RGB(0, 0, 255));
+		bush_left_bmp.LoadBitmap(IDB_BUSH_LEFT, RGB(0, 0, 255));
+		bush_right_bmp.LoadBitmap(IDB_BUSH_RIGHT, RGB(0, 0, 255));
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -173,6 +175,7 @@ namespace game_framework
 
 	CGameStateRun::~CGameStateRun()
 	{
+		delete map;
 	}
 
 	void CGameStateRun::OnBeginState()
@@ -219,7 +222,8 @@ namespace game_framework
 			map->setXPos(0);
 			map->setYPos(0);
 			map->getPlayer()->SetX(6);
-			map->getPlayer()->SetY(SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 37);	
+			map->getPlayer()->SetY(SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 37);
+			map->setIsWin(false);
 			CAudio::Instance()->Stop(AUDIO_FIELD);
 			GotoGameState(GAME_STATE_OVER);
 			//TRACE("GotoGameState(GAME_STATE_OVER);\n");

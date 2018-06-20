@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Vector2.h"
 #include "CGameBlock.h"
 #include "CGameMapLevel.h"
@@ -14,6 +13,7 @@ namespace game_framework
 	class CGameStar;
 	class CGameCoin;
 	class CGameBlockDebris;
+	class CGameFlag;
 
 	enum AUDIO_ID {				// 定义各种音效的编号
 		AUDIO_FIELD,				// 0
@@ -22,7 +22,8 @@ namespace game_framework
 		AUDIO_BLOCK_USE,			// 3
 		AUDIO_JUMP,			        // 4
 		AUDIO_DEATH,                // 5
-		AUDIO_HUMI                  // 6
+		AUDIO_HUMI,                 // 6
+		AUDIO_GOAL                  // 7
 	};
 
 	//map class
@@ -70,7 +71,7 @@ namespace game_framework
 		bool checkCollisionRB(int nX, int nY, int nHitBoxX, int nHitBoxY, bool checkVisible);
 		bool checkCollisionRT(int nX, int nY, int nHitBoxX, bool checkVisible);
 
-		int checkCollisionWithPlatform(int nX, int nY, int iHitBoxX, int iHitBoxY);
+		//int checkCollisionWithPlatform(int nX, int nY, int iHitBoxX, int iHitBoxY);
 
 		bool checkCollision(Vector2* nV, bool checkVisible);
 
@@ -80,19 +81,24 @@ namespace game_framework
 		// ----- LOAD
 		void resetGameData();
 		void loadLVL();
-		void setBackgroundColor();
 
 		void structBush(int X, int Y, int iSze);
 		void structGrass(int X, int Y, int iSize);
 		void structCloud(int X, int Y);
-		void structCloud2(int X, int Y);
 		void structGround(int X, int Y, int iWidth, int iHeight);
 		void structGND2(int X, int Y, int iSize, bool bDir); // true = LEFT, false = RIGHT
 		void structGND2(int X, int Y, int iWidth, int iHeight);
+		void structPipe(int X, int Y, int iHeight);
+		void structPipeVertical(int X, int Y, int iHeight);
+		void structPipeHorizontal(int X, int Y, int iWidth);
+
 		void structCoins(int X, int Y, int iWidth, int iHeight);
 		void structBrick(int X, int Y, int iWidth, int iHeight);
 		void struckBlockQ(int X, int Y, int iWidth);
 		void struckBlockQ2(int X, int Y, int iWidth); //invisible
+
+		void structEnd(int X, int Y, int iHeight);
+		void structCastleSmall(int X, int Y);
 
 		void setBlockID(int X, int Y, int iBlockID);
 
@@ -121,6 +127,8 @@ namespace game_framework
 		bool getMoveMap();
 		void setMoveMap(bool bMoveMap);
 
+		void setIsWin(bool isWin);
+
 	private:
 
 /***************************************************/
@@ -145,7 +153,16 @@ namespace game_framework
 		int getListID(int);
 		int getNumOfMinions();
 
+		bool keepSpawnPoisonMushroom;
+		Vector2* poisonMushroomSpawnPoint;
+		unsigned int poisonMushroomSpawnTime;
+
+		bool keepSpawnGoombas;
+		Vector2* goombasSpawnPoint;
+		unsigned int goombasSpawnTime;
+
 		vector<CGameCoin*> lCoin;
+		CGameFlag* oFlag;
 
 		int getStartBlock();
 		int getEndBlock();
@@ -164,6 +181,8 @@ namespace game_framework
 		void clearMap();
 		void clearMinions();
 
-		bool isPlayerDeath;
+		void SomethingSpecial();
+
+		bool isWin;
 	};
 }

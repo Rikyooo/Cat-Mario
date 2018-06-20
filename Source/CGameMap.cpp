@@ -13,12 +13,14 @@
 #include "CGameStar.h"
 #include "CGameCoin.h"
 #include "CGameBlockDebris.h"
+#include "CGameFlag.h"
 
 namespace game_framework
 {
 CGameMap::CGameMap()
 {
-    oPlayer = new CGamePlayer(6, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 37);
+    this->oPlayer = new CGamePlayer(6, SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT - 37);
+	this->oFlag = nullptr;
     this->currentLevelID = 0;
     this->iMapWidth = 0;
     this->iMapHeight = 0;
@@ -27,7 +29,14 @@ CGameMap::CGameMap()
     this->fYPos = 0;
     this->iSpawnPointID = 0;
     this->bMoveMap = true;
-	this->isPlayerDeath = false;
+	this->keepSpawnPoisonMushroom = false;
+	this->poisonMushroomSpawnPoint = nullptr;
+	this->poisonMushroomSpawnTime = 0;
+	this->keepSpawnGoombas = false;
+	this->goombasSpawnPoint = nullptr;
+	this->goombasSpawnTime = 0;
+	this->isWin = false;
+
     loadGameData();
     loadLVL();
 }
@@ -35,10 +44,39 @@ CGameMap::CGameMap()
 CGameMap::~CGameMap(void)
 {
     for (vector<CGameBlock*>::iterator i = vBlock.begin(); i != vBlock.end(); i++)
-        delete (*i);
+	{
+		delete (*i);
+	}
 
     for (vector<CGameBlock*>::iterator i = vMinion.begin(); i != vMinion.end(); i++)
-        delete (*i);
+	{
+		delete (*i);
+	}
+
+	for (vector<vector<CGameMapLevel*>>::iterator i = lMap.begin(); i != lMap.end(); i++)
+	{
+		for (vector<CGameMapLevel*>::iterator j = i->begin(); j != i->end(); j++)
+			delete (*j);
+	}
+
+	for (vector<CGameBlockDebris*>::iterator i = lBlockDebris.begin(); i != lBlockDebris.end(); i++)
+	{
+		delete (*i);
+	}
+
+	for (vector<vector<CGameMinion*>>::iterator i = lMinion.begin(); i != lMinion.end(); i++)
+	{
+		for (vector<CGameMinion*>::iterator j = i->begin(); j != i->end(); j++)
+			delete (*j);
+	}
+
+	for (vector<CGameCoin*>::iterator i = lCoin.begin(); i != lCoin.end(); i++)
+		delete (*i);
+
+	delete oPlayer;
+	delete oFlag;
+	delete poisonMushroomSpawnPoint;
+	delete goombasSpawnPoint;
 }
 
 void CGameMap::LoadBitmap()
@@ -56,7 +94,7 @@ void CGameMap::Update()
 {
     /*if (!oPlayer->getInLevelAnimation())
     {
-    	*/
+    */
     //UpdateMinionBlokcs();
     UpdateMinions();
     UpdatePlayer();
@@ -78,6 +116,23 @@ void CGameMap::Update()
             delete lCoin[i];
             lCoin.erase(lCoin.begin() + i);
         }
+
+	SomethingSpecial();
+
+	if (isWin)
+	{
+		oFlag->Update();
+		CDC* pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC
+		CFont f, *fp;
+		f.CreatePointFont(160, "Yu Gothic UI");	// 产生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 选用 font f
+		pDC->SetBkColor(RGB(160, 180, 250));
+		pDC->SetTextColor(RGB(0, 0, 0));
+		pDC->TextOut(150, 200, "CONGRATS ON YOUR WINNING!");
+		pDC->TextOut(200, 230, "MORE LEVEL IS COMING~");
+		pDC->SelectObject(fp);						// 放掉 font f (千万不要漏了放掉)
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	}
 }
 
 void CGameMap::UpdatePlayer()
@@ -335,6 +390,11 @@ void CGameMap::DrawMap()
                 //TRACE("i:%d j:%d ID:%d\n", i, j, lMap[i][j]->getBlockID());
                 vBlock[lMap[i][j]->getBlockID()]->OnDraw(32 * i + (int)fXPos, SIZE_Y - BLOCK_WIDTH_HEIGHT * (j + 1) - lMap[i][j]->updateYPos(), false);
             }
+
+	if (oFlag != NULL) 
+	{
+		oFlag->Draw(this);
+	}
 }
 
 void CGameMap::DrawMinions()
@@ -344,7 +404,6 @@ void CGameMap::DrawMinions()
         for (int j = 0, jSize = lMinion[i].size(); j < jSize; j++)
         {
             lMinion[i][j]->Draw(this, lMinion[i][j]->getBlockID());
-            //CCFG::getText()->DrawWS(rR, std::to_string(i), lMinion[i][j]->getXPos() + (int)fXPos, lMinion[i][j]->getYPos(), 0, 0, 0, 8);
         }
     }
 }
@@ -390,16 +449,20 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
     if (POS == 0)
         switch (iBlockID)
         {
-        case 9: case 55: // ----- BlockQ
+        case 9: // ----- BlockQ
             if (lMap[nX][nY]->getSpawnMushroom())
             {
                 if (lMap[nX][nY]->getPowerUP())
                     lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 * (nY + 1), true, nX, nY));
                 else
-                    lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 - 32 * (nY + 1), false, nX, nY));
+                    lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 * (nY + 1), false, nX, nY));
 
 				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
             }
+			else if (lMap[nX][nY]->getSpawnGoombas())
+			{
+				addGoombas(32 * nX, SIZE_Y - 32 * (nY + 1) - 27, false);
+			}
             else
             {
                 lCoin.push_back(new CGameCoin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
@@ -418,9 +481,7 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
             checkCollisionOnTopOfTheBlock(nX, nY);
             break;
 
-        case 13:
-        case 28:
-        case 81: // ----- Brick
+        case 13: // ----- Brick
             if (lMap[nX][nY]->getSpawnStar())
             {
                 lMap[nX][nY]->setBlockID(iLevelType == 0 || iLevelType == 4 ? 10 : iLevelType == 1 ? 56 : 80);
@@ -435,7 +496,7 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
 				if (lMap[nX][nY]->getPowerUP())
 					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 * (nY + 1), true, nX, nY));
 				else
-					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 - 32 * (nY + 1), false, nX, nY));
+					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 * (nY + 1), false, nX, nY));
 
                 //lMap[nX][nY]->startBlockAnimation();
 				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
@@ -472,10 +533,22 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
 				if (lMap[nX][nY]->getPowerUP())
 					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 * (nY + 1), true, nX, nY));
 				else
-					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 - 32 * (nY + 1), false, nX, nY));
+				{
+					poisonMushroomSpawnPoint = new Vector2(nX, nY);
+					keepSpawnPoisonMushroom = true;
+					poisonMushroomSpawnTime = timeGetTime();
+					lMinion[getListID(32 * nX)].push_back(new CGameMushroom(32 * nX, SIZE_Y - 32 * (nY + 1), false, nX, nY));
+				}
 
 				CAudio::Instance()->Play(AUDIO_BLOCK_USE);
             }
+			else if (lMap[nX][nY]->getSpawnGoombas())
+			{
+				goombasSpawnPoint = new Vector2(nX, nY);
+				keepSpawnGoombas = true;
+				goombasSpawnTime = timeGetTime();
+				addGoombas(32 * nX, SIZE_Y - 32 * (nY + 1) - 27, true);
+			}
             else
             {
                 lCoin.push_back(new CGameCoin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
@@ -496,52 +569,44 @@ bool CGameMap::blockUse(int nX, int nY, int iBlockID, int POS)
             break;
         }
 
-    //else if (POS == 1)
-    //	switch (iBlockID)
-    //	{
-    //	case 21: case 23: case 31: case 33: case 98: case 100: case 113: case 115: case 137: case 139: case 177: case 179: // Pipe
-    //		pipeUse();
-    //		break;
-    //	case 40: case 41: case 123: case 124: case 182: // End
-    //		EndUse();
-    //		break;
-    //	case 82:
-    //		EndBoss();
-    //		break;
-    //	default:
-    //		break;
-    //	}
+	//else if (POS == 1)
+	//{
+	//	//switch (iBlockID)
+	//	//{
+	//	//	//case 21: case 23: case 31: case 33: case 98: case 100: case 113: case 115: case 137: case 139: case 177: case 179: // Pipe
+	//	//	//	pipeUse();
+	//	//	//	break;
+	//	////case 40: case 41: case 123: case 124: case 182: // End
+	//	////	EndUse();
+	//	////	break;
+	//	//	/*case 82:
+	//	//		EndBoss();
+	//	//		break;*/
+	//	//default:
+	//	//	break;
+	//	//}
+	//}
 
-    switch (iBlockID)
-    {
-    case 29:
-    case 71:
-    case 72:
-    case 73:// COIN
-        lMap[nX][nY]->setBlockID(iLevelType == 2 ? 94 : 0);
-		CAudio::Instance()->Play(AUDIO_BLOCK_COIN);
-        return false;
-        break;
-
-    //case 36: case 38: case 60: case 62: case 103: case 105: case 118: case 120: // Pipe
-    //	pipeUse();
-    //	break;
-    //case 127: // BONUS END
-    //	EndBonus();
-    //	break;
-    //case 169:
-    //	TPUse();
-    //	break;
-    //case 170:
-    //	TPUse2();
-    //	break;
-    //case 171:
-    //	TPUse3();
-    //	break;
-    default:
-        break;
-    }
-
+	switch (iBlockID)
+	{
+	case 18:
+		lMap[nX][nY]->setBlockID(19);
+		oPlayer->Death(true);
+		break;
+	case 29:
+	case 30:
+		oPlayer->Death(true);
+		break;
+	case 36:
+		if (!isWin && oPlayer->getJumpState() == 1)
+		{
+			oPlayer->resetJump();
+			isWin = true;
+			CAudio::Instance()->Stop(AUDIO_FIELD);
+			CAudio::Instance()->Play(AUDIO_GOAL);
+		}
+		break;
+	}
     return true;
 }
 
@@ -624,18 +689,17 @@ bool CGameMap::checkCollision(Vector2* nV, bool checkVisible)
 
 void CGameMap::checkCollisionOnTopOfTheBlock(int nX, int nY)
 {
-    switch (lMap[nX][nY + 1]->getBlockID())
-    {
-    case 29:
-    case 71:
-    case 72:
-    case 73:// COIN
-        lMap[nX][nY + 1]->setBlockID(0);
-        lCoin.push_back(new CGameCoin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
-        //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
-        return;
-        break;
-    }
+    //switch (lMap[nX][nY + 1]->getBlockID())
+    //{
+    //case 71:
+    //case 72:
+    //case 73:// COIN
+    //    lMap[nX][nY + 1]->setBlockID(0);
+    //    lCoin.push_back(new CGameCoin(nX * 32 + 7, SIZE_Y - nY * 32 - 48));
+    //    //CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
+    //    return;
+    //    break;
+    //}
 
     for (int i = (nX - nX % 5) / 5, iEnd = i + 3; i < iEnd && i < iMinionListSize; i++)
         for (unsigned int j = 0; j < lMinion[i].size(); j++)
@@ -664,8 +728,8 @@ void CGameMap::loadLVL_1_1()
     // ----- Clouds -----
     structCloud(6, 12);
     structCloud(23, 12);
-    structCloud2(65, 13);
-    structCloud2(103, 9);
+    structCloud(65, 13);
+    structCloud(103, 9);
     // ----- Grass -----
     structGrass(19, 2, 1);
     structGrass(26, 2, 1);
@@ -684,7 +748,7 @@ void CGameMap::loadLVL_1_1()
     structGND2(89, 2, 1, 2);
     structGND2(107, 2, 8, true);
     structGND2(115, 2, 1, 8);
-    structGND2(122, 2, 1, 1);
+    structGND2(121, 2, 1, 1);
 	structGND2(140, 2, 1, 13);
     // ----- BRICK -----
     struckBlockQ(8, 5, 1);
@@ -694,9 +758,12 @@ void CGameMap::loadLVL_1_1()
 	struckBlockQ2(13, 4, 1);
     structBrick(14, 5, 1, 1);
     struckBlockQ(14, 9, 1);
-    lMap[14][9]->setSpawnMushroom(true);
+    lMap[14][9]->setSpawnGoombas(true);
     struckBlockQ(15, 5, 1);
     structBrick(16, 5, 1, 1);
+	struckBlockQ2(35, 5, 1);
+	lMap[35][5]->setSpawnMushroom(true);
+	lMap[35][5]->setPowerUP(false);
     struckBlockQ2(40, 4, 1);
     structBrick(46, 5, 1, 1);
     struckBlockQ(47, 5, 1);
@@ -717,11 +784,16 @@ void CGameMap::loadLVL_1_1()
     structBrick(98, 5, 2, 1);
     struckBlockQ(100, 5, 1);
     structBrick(101, 5, 1, 1);
+	struckBlockQ2(108, 6, 1);
+	lMap[108][6]->setSpawnGoombas(true);
     // ----- PIPES -----
-    //structPipe(28, 2, 1);
+    structPipe(20, 2, 2);
+	structPipe(29, 2, 3);
+	structPipe(95, 2, 2);
+	structPipe(105, 2, 1);
     // ----- END
-    //structEnd(127, 3, 9);
-    //structCastleSmall(202, 2);
+    structEnd(121, 3, 8);
+    structCastleSmall(129, 2);
     this->iLevelType = 0;
 }
 
@@ -743,6 +815,15 @@ void CGameMap::loadMinionsLVL_1_1()
 
 }
 
+//void CGameMap::EndUse()
+//{
+//	oPlayer->resetJump();
+//	oPlayer->stopMove();
+//
+//	/*CCFG::getMusic()->StopMusic();
+//	CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cLEVELEND);*/
+//}
+
 void CGameMap::clearMap()
 {
     for (int i = 0; i < iMapWidth; i++)
@@ -755,10 +836,12 @@ void CGameMap::clearMap()
 
     lMap.clear();
     iMapWidth = iMapHeight = 0;
-    /*if (oFlag != NULL) {
+
+    if (oFlag != NULL) 
+	{
     	delete oFlag;
     	oFlag = NULL;
-    }*/
+    }
     /*oEvent->eventTypeID = oEvent->eNormal;*/
 }
 
@@ -778,11 +861,92 @@ void CGameMap::clearMinions()
     //clearPlatforms();
 }
 
+void CGameMap::SomethingSpecial()
+{
+	//int player_left = oPlayer->GetX() - fXPos;
+	int player_right = oPlayer->GetX() + oPlayer->GetHitBoxX() - (int)fXPos;
+	//int player_top = oPlayer->GetY();
+	int player_bottom = oPlayer->GetY() + oPlayer->GetHitBoxY();
+
+	if (player_right > 72 * BLOCK_WIDTH_HEIGHT && player_right < 76 * BLOCK_WIDTH_HEIGHT && (player_bottom == SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT || player_bottom == SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT + 1))
+	{
+		for (int i = 72; i <= 76; i++)
+		{
+			lMap[i][0]->setBlockID(0);
+			lMap[i][1]->setBlockID(0);
+		}
+	}
+
+	if (player_right > 73 * BLOCK_WIDTH_HEIGHT && player_right < 75 * BLOCK_WIDTH_HEIGHT && (player_bottom == SIZE_Y - 6 * BLOCK_WIDTH_HEIGHT || player_bottom == SIZE_Y - 6 * BLOCK_WIDTH_HEIGHT + 1))
+	{
+			lMap[74][5]->setBlockID(0);
+	}
+
+	if (player_right > 116 * BLOCK_WIDTH_HEIGHT && player_right < 120 * BLOCK_WIDTH_HEIGHT && (player_bottom == SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT || player_bottom == SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT + 1))
+	{
+		for (int i = 116; i <= 120; i++)
+		{
+			lMap[i][0]->setBlockID(0);
+			lMap[i][1]->setBlockID(0);
+		}
+	}
+
+	if (player_right > 123 * BLOCK_WIDTH_HEIGHT && player_right < 127 * BLOCK_WIDTH_HEIGHT && (player_bottom == SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT || player_bottom == SIZE_Y - 2 * BLOCK_WIDTH_HEIGHT + 1))
+	{
+		for (int i = 123; i <= 127; i++)
+		{
+			lMap[i][0]->setBlockID(0);
+			lMap[i][1]->setBlockID(0);
+		}
+
+		lMap[123][2]->setBlockID(0);
+		lMap[124][2]->setBlockID(0);
+	}
+
+
+
+	if (keepSpawnPoisonMushroom && (32 * poisonMushroomSpawnPoint->getX() + 29 < SIZE_X - fXPos))
+	{
+		if (timeGetTime() - poisonMushroomSpawnTime >= 240)
+		{
+			poisonMushroomSpawnTime = timeGetTime();
+			lMinion[getListID(32 * poisonMushroomSpawnPoint->getX())].push_back(new CGameMushroom(32 * poisonMushroomSpawnPoint->getX(), SIZE_Y - 32 * (poisonMushroomSpawnPoint->getY() + 1), false, poisonMushroomSpawnPoint->getX(), poisonMushroomSpawnPoint->getY()));
+		}
+	}
+	else
+	{
+		keepSpawnPoisonMushroom = false;
+		if (poisonMushroomSpawnPoint != nullptr)
+		{
+			delete poisonMushroomSpawnPoint;
+			poisonMushroomSpawnPoint = nullptr;
+		}
+	}
+
+	if (keepSpawnGoombas && (32 * goombasSpawnPoint->getX() + 29 < SIZE_X - fXPos))
+	{
+		if (timeGetTime() - goombasSpawnTime >= 600)
+		{
+			goombasSpawnTime = timeGetTime();
+			addGoombas(32 * goombasSpawnPoint->getX(), SIZE_Y - 32 * (goombasSpawnPoint->getY() + 1) - 27, true);
+		}
+	}
+	else
+	{
+		keepSpawnGoombas = false;
+		if (goombasSpawnPoint != nullptr)
+		{
+			delete goombasSpawnPoint;
+			goombasSpawnPoint = nullptr;
+		}
+	}
+}
+
 void CGameMap::resetGameData()
 {
     this->currentLevelID = 0;
     this->iSpawnPointID = 0;
-    /*oPlayer->resetPowerLVL();*/
+    oPlayer->resetPowerLVL();
     /*setSpawnPoint();*/
     loadLVL();
 }
@@ -798,21 +962,6 @@ void CGameMap::loadLVL()
     default:
         break;
     }
-}
-
-void CGameMap::setBackgroundColor()
-{
-    /*switch (iLevelType) {
-    case 0: case 2:
-    	SDL_SetRenderDrawColor(rR, 93, 148, 252, 255);
-    	break;
-    case 1: case 3: case 4:
-    	SDL_SetRenderDrawColor(rR, 0, 0, 0, 255);
-    	break;
-    default:
-    	SDL_SetRenderDrawColor(rR, 93, 148, 252, 255);
-    	break;
-    }*/
 }
 
 void CGameMap::structBush(int X, int Y, int iSize)
@@ -864,15 +1013,6 @@ void CGameMap::structCloud(int X, int Y)
     lMap[X][Y - 1]->setBlockID(17);
 }
 
-void CGameMap::structCloud2(int X, int Y)
-{
-    lMap[X][Y]->setBlockID(19);
-    lMap[X - 1][Y]->setBlockID(14);
-    lMap[X + 1][Y]->setBlockID(15);
-    lMap[X][Y + 1]->setBlockID(16);
-    lMap[X][Y - 1]->setBlockID(17);
-}
-
 void CGameMap::structGround(int X, int Y, int iWidth, int iHeight)
 {
     for (int i = 0; i < iWidth; i++)
@@ -913,6 +1053,39 @@ void CGameMap::structGND2(int X, int Y, int iWidth, int iHeight)
             lMap[X + i][Y + j]->setBlockID(iLevelType == 0 || iLevelType == 4 ? 20 : iLevelType == 3 ? 167 : 27);
 }
 
+void CGameMap::structPipe(int X, int Y, int iHeight)
+{
+	for (int i = 0; i < iHeight; i++) {
+		lMap[X][Y + i]->setBlockID(iLevelType == 0 ? 24 : iLevelType == 2 ? 97 : iLevelType == 4 ? 112 : iLevelType == 5 ? 136 : iLevelType == 3 ? 176 : iLevelType == 7 ? 172 : 30);
+		lMap[X + 1][Y + i]->setBlockID(iLevelType == 0 ? 26 : iLevelType == 2 ? 99 : iLevelType == 4 ? 114 : iLevelType == 5 ? 138 : iLevelType == 3 ? 178 : iLevelType == 7 ? 174 : 32);
+	}
+
+	lMap[X][Y + iHeight]->setBlockID(iLevelType == 0 ? 25 : iLevelType == 2 ? 98 : iLevelType == 4 ? 113 : iLevelType == 5 ? 137 : iLevelType == 3 ? 177 : iLevelType == 7 ? 173 : 31);
+	lMap[X + 1][Y + iHeight]->setBlockID(iLevelType == 0 ? 27 : iLevelType == 2 ? 100 : iLevelType == 4 ? 115 : iLevelType == 5 ? 139 : iLevelType == 3 ? 179 : iLevelType == 7 ? 175 : 33);
+}
+
+void CGameMap::structPipeVertical(int X, int Y, int iHeight)
+{
+	for (int i = 0; i < iHeight + 1; i++) {
+		lMap[X][Y + i]->setBlockID(iLevelType == 0 ? 20 : iLevelType == 2 ? 97 : iLevelType == 4 ? 112 : 30);
+		lMap[X + 1][Y + i]->setBlockID(iLevelType == 0 ? 22 : iLevelType == 2 ? 99 : iLevelType == 4 ? 114 : 32);
+	}
+}
+
+void CGameMap::structPipeHorizontal(int X, int Y, int iWidth)
+{
+	lMap[X][Y]->setBlockID(iLevelType == 0 ? 62 : iLevelType == 2 ? 105 : iLevelType == 4 ? 120 : 38);
+	lMap[X][Y + 1]->setBlockID(iLevelType == 0 ? 60 : iLevelType == 2 ? 103 : iLevelType == 4 ? 118 : 36);
+
+	for (int i = 0; i < iWidth; i++) {
+		lMap[X + 1 + i][Y]->setBlockID(iLevelType == 0 ? 61 : iLevelType == 2 ? 104 : iLevelType == 4 ? 119 : 37);
+		lMap[X + 1 + i][Y + 1]->setBlockID(iLevelType == 0 ? 59 : iLevelType == 2 ? 102 : iLevelType == 4 ? 117 : 35);
+	}
+
+	lMap[X + 1 + iWidth][Y]->setBlockID(iLevelType == 0 ? 58 : iLevelType == 2 ? 101 : iLevelType == 4 ? 116 : 34);
+	lMap[X + 1 + iWidth][Y + 1]->setBlockID(iLevelType == 0 ? 63 : iLevelType == 2 ? 106 : iLevelType == 4 ? 121 : 39);
+}
+
 void CGameMap::structCoins(int X, int Y, int iWidth, int iHeight)
 {
     for (int i = 0; i < iWidth; i++)
@@ -941,6 +1114,34 @@ void CGameMap::struckBlockQ2(int X, int Y, int iWidth)
 {
     for (int i = 0; i < iWidth; i++)
         lMap[X + i][Y]->setBlockID(21); //transp
+}
+
+void CGameMap::structEnd(int X, int Y, int iHeight)
+{
+	for (int i = 0; i < iHeight; i++) {
+		lMap[X][Y + i]->setBlockID(iLevelType == 4 ? 123 : 28);
+	}
+
+	oFlag = new CGameFlag(X * BLOCK_WIDTH_HEIGHT - 16, SIZE_Y - (Y + iHeight) * 32, (iHeight - 1) * BLOCK_WIDTH_HEIGHT);
+
+	lMap[X][Y + iHeight]->setBlockID(iLevelType == 4 ? 124 : 29);
+
+	for (int i = Y + iHeight + 1; i < Y + iHeight + 4; i++) {
+		lMap[X][i]->setBlockID(31);
+	}
+}
+
+void CGameMap::structCastleSmall(int X, int Y)
+{
+	lMap[X][Y]->setBlockID(32);
+	lMap[X + 1][Y]->setBlockID(33);
+	lMap[X + 2][Y]->setBlockID(34);
+	lMap[X][Y + 1]->setBlockID(35);
+	lMap[X + 1][Y + 1]->setBlockID(36);
+	lMap[X + 2][Y + 1]->setBlockID(37);
+	lMap[X][Y + 2]->setBlockID(38);
+	lMap[X + 1][Y + 2]->setBlockID(39);
+	lMap[X + 2][Y + 2]->setBlockID(40);
 }
 
 void CGameMap::setBlockID(int X, int Y, int iBlockID)
@@ -1035,6 +1236,11 @@ void CGameMap::setMoveMap(bool bMoveMap)
     this->bMoveMap = bMoveMap;
 }
 
+void CGameMap::setIsWin(bool isWin)
+{
+	this->isWin = isWin;
+}
+
 int CGameMap::getListID(int nX)
 {
     return (int)(nX / 160);
@@ -1092,7 +1298,7 @@ void CGameMap::loadGameData()
     vBlock.push_back(new CGameBlock(15, IDB_CLOUD_RIGHT, false, false, false, true));
     vBlock.push_back(new CGameBlock(16, IDB_CLOUD_TOP, false, false, false, true));
     vBlock.push_back(new CGameBlock(17, IDB_CLOUD_BOTTOM, false, false, false, true));
-    vBlock.push_back(new CGameBlock(18, IDB_CLOUD_CENTER_1, false, false, false, true));
+    vBlock.push_back(new CGameBlock(18, IDB_CLOUD_CENTER_1, false, false, true, true));
     vBlock.push_back(new CGameBlock(19, IDB_CLOUD_CENTER_2, false, false, false, true));
     //sturdy block
     vBlock.push_back(new CGameBlock(20, IDB_BLOCK_STURDY_GROUND, true, false, false, true));
@@ -1100,16 +1306,35 @@ void CGameMap::loadGameData()
     vBlock.push_back(new CGameBlock(21, IDB_TRANSP, true, false, true, false));
     //coin
     vBlock.push_back(new CGameBlock(22, IDB_COIN, false, false, true, true));
-    //pipe
     //debris
-	vBlock.push_back(new CGameBlock(23, IDB_BLOCK_DEBRIS_LEFT, false, false, false, true));
-	//vBlock.push_back(new CGameBlock(24, IDB_BLOCK_DEBRIS_RIGHT, false, false, false, true));
+	vBlock.push_back(new CGameBlock(23, IDB_BLOCK_DEBRIS, false, false, false, true));
+	//pipe
+	vBlock.push_back(new CGameBlock(24, IDB_PIPE_LEFT_BOT, true, false, false, true));
+	vBlock.push_back(new CGameBlock(25, IDB_PIPE_LEFT_TOP, true, false, true, true));
+	vBlock.push_back(new CGameBlock(26, IDB_PIPE_RIGHT_BOT, true, false, false, true));
+	vBlock.push_back(new CGameBlock(27, IDB_PIPE_RIGHT_TOP, true, false, true, true));
+	//end
+	vBlock.push_back(new CGameBlock(28, IDB_END, false, false, true, true));
+	vBlock.push_back(new CGameBlock(29, IDB_END_DOT, false, false, false, true));
+	vBlock.push_back(new CGameBlock(30, IDB_END_FLAG, false, false, false, true));
+	vBlock.push_back(new CGameBlock(31, IDB_TRANSP, false, false, true, true));
+	//castle
+	vBlock.push_back(new CGameBlock(32, IDB_CASTLE_BL, true, false, false, true));
+	vBlock.push_back(new CGameBlock(33, IDB_CASTLE_BC, false, false, false, true));
+	vBlock.push_back(new CGameBlock(34, IDB_CASTLE_BR, true, false, false, true));
+	vBlock.push_back(new CGameBlock(35, IDB_CASTLE_CL, false, false, false, true));
+	vBlock.push_back(new CGameBlock(36, IDB_CASTLE_CC, false, false, true, true));
+	vBlock.push_back(new CGameBlock(37, IDB_CASTLE_CR, false, false, false, true));
+	vBlock.push_back(new CGameBlock(38, IDB_CASTLE_TL, false, false, false, true));
+	vBlock.push_back(new CGameBlock(39, IDB_CASTLE_TC, false, false, false, true));
+	vBlock.push_back(new CGameBlock(40, IDB_CASTLE_TR, false, false, false, true));
+
     // --------------- Enemy ---------------
     //enemy_normal
     vMinion.push_back(new CGameBlock(0, IDB_ENEMY_NORMAL, true, false, true, true));
 	//mushroom
 	vMinion.push_back(new CGameBlock(1, IDB_MUSHROOM_GOOD, true, false, true, true));
-	vMinion.push_back(new CGameBlock(2, IDB_MUSHROOM_GOOD, true, false, true, true));
+	vMinion.push_back(new CGameBlock(2, IDB_MUSHROOM_POISON, true, false, true, true));
 	vMinion.push_back(new CGameBlock(3, IDB_MUSHROOM_GOOD, true, false, true, true));
 	//flower
 	vMinion.push_back(new CGameBlock(4, IDB_FLOWER, true, false, true, true));
@@ -1129,6 +1354,7 @@ void CGameMap::loadGameData()
 	CAudio::Instance()->Load(AUDIO_JUMP, "sounds\\SE\\jump.wav");
 	CAudio::Instance()->Load(AUDIO_DEATH, "sounds\\SE\\death.wav");
 	CAudio::Instance()->Load(AUDIO_HUMI, "sounds\\SE\\humi.wav");
+	CAudio::Instance()->Load(AUDIO_GOAL, "sounds\\SE\\goal.wav");
 }
 
 void CGameMap::createMap()

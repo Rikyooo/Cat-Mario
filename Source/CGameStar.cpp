@@ -6,6 +6,7 @@
 #include "gamelib.h"
 #include "CGameStar.h"
 #include "CGameMap.h"
+#include "CGamePlayer.h"
 
 namespace game_framework
 {
@@ -103,7 +104,7 @@ namespace game_framework
 	{
 		map->getMinionBlock(iBlockID)->OnDraw((int)fXPos + (int)map->getXPos(), (int)fYPos, false);
 		if (inSpawnState)
-			map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 10 : 56)->OnDraw((int)fXPos + (int)map->getXPos() - 2, (int)fYPos + (32 - inSpawnY) - map->getMapBlock(iX, iY)->getYPos() - 2, false);
+			map->getBlock(map->getLevelType() == 0 || map->getLevelType() == 4 ? 10 : 56)->OnDraw((int)fXPos + (int)map->getXPos() - 2, (int)fYPos + (32 - inSpawnY) - map->getMapBlock(iX, iY)->getYPos() - 2, !moveDirection);
 	}
 
 	void CGameStar::collisionWithPlayer(bool TOP, CGameMap * map)
@@ -111,6 +112,7 @@ namespace game_framework
 		if (!inSpawnState) 
 		{
 			//map->getPlayer()->setStarEffect(true);
+			map->getPlayer()->Death(true);
 			minionState = -1;
 		}
 	}

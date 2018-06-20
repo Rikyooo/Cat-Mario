@@ -10,6 +10,7 @@ namespace game_framework
 		bool spawnMushroom;
 		bool powerUP; // -- true = powerUP, false = 1UP
 		bool spawnStar;
+		bool spawnGoombas;
 		int iNumOfUse;
 
 		// ----- Animation -----
@@ -45,5 +46,7 @@ namespace game_framework
 		void setPowerUP(bool powerUP);
 		bool getSpawnStar();
 		void setSpawnStar(bool spawnStar);
+		bool getSpawnGoombas();
+		void setSpawnGoombas(bool spawnGoombas);
 	};
 }

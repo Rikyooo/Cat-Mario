@@ -33,8 +33,10 @@ namespace game_framework
 
 	CGameSprite::~CGameSprite()
 	{
-		for (std::vector<CMovingBitmap*>::iterator i = vSprite.begin(); i != vSprite.end(); i++) 
+		for (std::vector<CMovingBitmap*>::iterator i = vSprite.begin(); i != vSprite.end(); i++)
+		{
 			delete (*i);
+		}
 	}
 
 	void CGameSprite::Update()

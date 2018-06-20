@@ -3,9 +3,6 @@
 
 namespace game_framework
 {
-	class CGameMap;
-	class CGamePlayer;
-
 	class CGameGoombas : public CGameMinion
 	{
 	private:

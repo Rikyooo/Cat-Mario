@@ -6,6 +6,7 @@
 #include "gamelib.h"
 #include "CGameMinion.h"
 #include "CGameMap.h"
+#include "CGamePlayer.h"
 
 namespace game_framework
 {

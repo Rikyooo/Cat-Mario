@@ -15,55 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0EEACA614BCA4BE09279903EEB9DB409"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_55BB318B9602490FB60BAB01316FED36"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_778D2B2D4A64428BB75823267AE592A1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8DC094A1B98844F3B3A2D1BE6425AB9A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_994848EF52724772B0F293776AB9A4FF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BD3D8F6E6F2441DAB19BEFC8E073AFCB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D573EBE5E2194D459DD8E59C2542D101"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DB61FEDAE4084E21A9B9B97638562762"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F401BED88B2445419E4491D0B43D5E8B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -85,6 +37,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -138,166 +98,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0EEACA614BCA4BE09279903EEB9DB409"
-            {
-            "SourcePath" = "8:..\\Sounds\\ding.wav"
-            "TargetName" = "8:ding.wav"
-            "Tag" = "8:"
-            "Folder" = "8:_2C8C53C95BCC42968D7373F113B8BB2B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_778D2B2D4A64428BB75823267AE592A1"
-            {
-            "SourcePath" = "8:..\\Bitmaps\\ball1.bmp"
-            "TargetName" = "8:ball1.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_B844D93D86874706BDC5F9DEE7778963"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8DC094A1B98844F3B3A2D1BE6425AB9A"
-            {
-            "SourcePath" = "8:..\\Bitmaps\\ball3.bmp"
-            "TargetName" = "8:ball3.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_B844D93D86874706BDC5F9DEE7778963"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_994848EF52724772B0F293776AB9A4FF"
-            {
-            "SourcePath" = "8:..\\Bitmaps\\ball2.bmp"
-            "TargetName" = "8:ball2.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_B844D93D86874706BDC5F9DEE7778963"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BD3D8F6E6F2441DAB19BEFC8E073AFCB"
-            {
-            "SourcePath" = "8:..\\RES\\GAME.ICO"
-            "TargetName" = "8:GAME.ICO"
-            "Tag" = "8:"
-            "Folder" = "8:_509B946147574D4EBB97BDDD698F71A7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D573EBE5E2194D459DD8E59C2542D101"
-            {
-            "SourcePath" = "8:..\\Sounds\\ntut.mid"
-            "TargetName" = "8:ntut.mid"
-            "Tag" = "8:"
-            "Folder" = "8:_2C8C53C95BCC42968D7373F113B8BB2B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB61FEDAE4084E21A9B9B97638562762"
-            {
-            "SourcePath" = "8:..\\Bitmaps\\ball4.bmp"
-            "TargetName" = "8:ball4.bmp"
-            "Tag" = "8:"
-            "Folder" = "8:_B844D93D86874706BDC5F9DEE7778963"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F401BED88B2445419E4491D0B43D5E8B"
-            {
-            "SourcePath" = "8:..\\Sounds\\lake.mp3"
-            "TargetName" = "8:lake.mp3"
-            "Tag" = "8:"
-            "Folder" = "8:_2C8C53C95BCC42968D7373F113B8BB2B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -519,7 +319,7 @@
             "Target" = "8:_55BB318B9602490FB60BAB01316FED36"
             "Folder" = "8:_8FBEF8150F4140DE916AD5E5250F3DC9"
             "WorkingFolder" = "8:_509B946147574D4EBB97BDDD698F71A7"
-            "Icon" = "8:_BD3D8F6E6F2441DAB19BEFC8E073AFCB"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -923,7 +723,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_55BB318B9602490FB60BAB01316FED36"
             {
-            "SourcePath" = "8:..\\Release\\game.exe"
+            "SourcePath" = "8:..\\Debug\\game.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_509B946147574D4EBB97BDDD698F71A7"

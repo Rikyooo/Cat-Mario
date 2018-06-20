@@ -37,7 +37,7 @@ namespace game_framework
 		else if (bTOP) 
 		{
 			bTOP = false;
-			iLEFT = 80;
+			iLEFT = 60;
 		}
 		else
 			bDelete = true;

@@ -6,6 +6,7 @@
 #include "gamelib.h"
 #include "CGameMushroom.h"
 #include "CGameMap.h"
+#include "CGamePlayer.h"
 
 namespace game_framework
 {
@@ -13,14 +14,16 @@ namespace game_framework
 	{
 		this->fXPos = (float)iXPos;
 		this->fYPos = (float)fYPos - 2;
-
-		this->iBlockID = 1;
 		this->moveSpeed = 2;
 		this->inSpawnState = true;
 		this->minionSpawned = true;
 		this->inSpawnY = 30;
 		this->moveDirection = false;
 		this->powerUP = powerUP;
+		if (powerUP)
+			this->iBlockID = 1;
+		else
+			this->iBlockID = 2;
 		this->collisionOnlyWithPlayer = true;
 
 		this->minionState = 0;
@@ -89,15 +92,16 @@ namespace game_framework
 	{
 		if (!inSpawnState && minionState == 0) 
 		{
-			//if (powerUP) 
-			//{
-			//	map->getPlayer()->setPowerLVL(map->getPlayer()->getPowerLVL() + 1);
-			//}
-			//else 
-			//{
-			//	map->getPlayer()->setNumOfLives(map->getPlayer()->getNumOfLives() + 1);
-			//	//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cONEUP);
-			//}
+			if (powerUP) 
+			{
+				map->getPlayer()->setPowerLVL(map->getPlayer()->getPowerLVL() + 1);
+				map->getPlayer()->SetY((float)(map->getPlayer()->GetY()-48));
+			}
+			else 
+			{
+				map->getPlayer()->Death(true);
+				//CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cONEUP);
+			}
 
 			minionState = -1;
 		}

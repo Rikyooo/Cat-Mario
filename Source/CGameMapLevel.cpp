@@ -22,6 +22,7 @@ namespace game_framework
 
 		this->spawnMushroom = false;
 		this->spawnStar = false;
+		this->spawnGoombas = false;
 
 		this->powerUP = true;
 	}
@@ -129,5 +130,15 @@ namespace game_framework
 	void CGameMapLevel::setSpawnStar(bool spawnStar) 
 	{
 		this->spawnStar = spawnStar;
+	}
+
+	bool CGameMapLevel::getSpawnGoombas()
+	{
+		return spawnGoombas;
+	}
+
+	void CGameMapLevel::setSpawnGoombas(bool spawnGoombas)
+	{
+		this->spawnGoombas = spawnGoombas;
 	}
 }

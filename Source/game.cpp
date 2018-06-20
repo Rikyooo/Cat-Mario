@@ -40,6 +40,7 @@
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
+//#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif

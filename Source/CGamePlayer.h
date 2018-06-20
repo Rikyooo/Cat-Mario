@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Vector2.h"
 
 namespace game_framework
@@ -30,6 +29,8 @@ namespace game_framework
 		void playerPhysics(CGameMap *map);
 		void updateXPos(int iN, CGameMap *map);
 		void updateYPos(int iN, CGameMap *map);
+
+		void destroyBlock(CGameMap* map);
 
 		void startMove();
 		void resetMove();
