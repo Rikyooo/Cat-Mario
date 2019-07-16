@@ -10,13 +10,9 @@
 #define IDB_BLOCK                       160
 #define IDB_TITLE                       160
 #define IDB_BLOCK2                      162
-#define IDB_TREE_2                      162
 #define IDB_ENEMY                       163
 #define IDB_ITEM                        164
 #define IDB_ITEM3                       166
-#define IDB_TREE_1                      172
-#define IDB_CASTLE                      175
-#define IDB_FIRE                        180
 #define IDB_BLOCK_FLOOR_1_SKY           184
 #define IDB_BLOCK_FLOOR_2_GROUND        185
 #define IDB_BLOCK_FRAGILE_GROUND        186
@@ -31,7 +27,6 @@
 #define IDB_ENEMY_RASING                196
 #define IDB_COIN                        197
 #define IDB_MUSHROOM_GOOD               198
-#define IDB_FLAG                        200
 #define IDB_SAVE_POINT                  201
 #define IDB_MINUS                       216
 #define IDI_ICON1                       222
@@ -53,13 +48,29 @@
 #define IDB_CLOUD_CENTER_2              238
 #define IDB_CLOUD_BOTTOM                239
 #define IDB_BLOCK_DEBRIS                240
-#define IDB_BLOCK_DEBRIS_LEFT           240
-#define IDB_BLOCK_DEBRIS_RIGHT          241
 #define IDB_FLOWER                      242
 #define IDB_STAR_1                      243
 #define IDB_ENEMY_TURTLE_1              244
 #define IDB_PLAYER_5                    245
 #define IDB_ENEMY_TURTLE_2              246
+#define IDB_PIPE_LEFT_BOT               247
+#define IDB_PIPE_LEFT_TOP               248
+#define IDB_PIPE_RIGHT_BOT              249
+#define IDB_PIPE_RIGHT_TOP              250
+#define IDB_MUSHROOM_POISON             251
+#define IDB_END_DOT                     252
+#define IDB_END_FLAG                    253
+#define IDB_END                         254
+#define IDB_CASTLE_BC                   255
+#define IDB_CASTLE_BL                   256
+#define IDB_CASTLE_BR                   257
+#define IDB_CASTLE_CC                   258
+#define IDB_CASTLE_CL                   259
+#define IDB_CASTLE_CR                   260
+#define IDB_CASTLE_TC                   261
+#define IDB_CASTLE_TL                   262
+#define IDB_BITMAP2                     263
+#define IDB_CASTLE_TR                   263
 #define IDC_README                      1001
 #define ID_FILE_PAUSE                   32771
 #define ID_TOGGLE_FULLSCREEN            32772
@@ -72,7 +83,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        246
+#define _APS_NEXT_RESOURCE_VALUE        264
 #define _APS_NEXT_COMMAND_VALUE         32776
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
